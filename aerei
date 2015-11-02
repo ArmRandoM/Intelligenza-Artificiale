@@ -1,0 +1,90 @@
+aereoporto(n001, milano).
+aereoporto(n002, roma).
+aereoporto(n003, lamezia).
+aereoporto(n004, genova).
+aereoporto(n005, rc).
+aereoporto(n006, torino).
+aereoporto(n007, cagliari).
+aereoporto(n008, parigi).
+aereoporto(n009, berlino).
+aereoporto(n010, toronto).
+aereoporto(n011, newyork).
+
+volo(v01, alitalia, n001, n002, 10, 11, 115).
+volo(v02, alitalia, n011, n002, 14, 24, 230).
+volo(v03, alitalia, n007, n005, 16, 19, 80).
+volo(v04, alitalia, n005, n004, 07, 10, 160).
+volo(v05, airFrance, n010, n003, 06, 18, 190).
+volo(v06, airFrance, n003, n009, 12, 16, 210).
+volo(v07, airFrance, n008, n007, 19, 21, 230).
+volo(v08, airone, n005, n002, 21, 22, 130).
+volo(v09, airone, n005, n001, 22, 24, 140).
+volo(v10, airone, n010, n008, 11, 23, 170).
+volo(v11, alitalia, n001, n002, 17, 20, 170).
+volo(v12, alitalia, n002, n001, 17, 20, 170).
+volo(v13, alitalia, n003, n001, 17, 20, 170).
+volo(v14, alitalia, n004, n001, 17, 20, 170).
+volo(v15, alitalia, n005, n001, 17, 20, 170).
+volo(v16, alitalia, n006, n001, 17, 20, 170).
+volo(v17, alitalia, n007, n001, 17, 20, 170).
+volo(v18, alitalia, n008, n001, 17, 20, 170).
+volo(v19, alitalia, n009, n001, 17, 20, 170).
+volo(v20, alitalia, n010, n001, 17, 20, 170).
+volo(v21, alitalia, n011, n001, 17, 20, 170).
+
+passeggero(kali, v01).
+passeggero(simo, v02).
+passeggero(mina, v03).
+passeggero(ciccio, v04).
+passeggero(tina, v05).
+passeggero(nik, v06).
+passeggero(giorgio, v08).
+passeggero(laura, v09).
+passeggero(peppe, v07).
+passeggero(stefi, v10).
+passeggero(chiara, v07).
+
+person(chiara, f, 30).
+person(kali, m, 27).
+person(simo, f, 27).
+person(mina, f, 22).
+person(ciccio, m, 53).
+person(tina, f, 61).
+person(nik, m , 40).
+person(peppe, m, 31).
+person(stefi, f, 15).
+person(giorgio, m, 80).
+person(laura, f, 25).
+
+
+
+% i voli su cui si pranza (Partenza entro le 12 arrivo dopo le 14).
+
+q1(X) :- volo( X, _, _, _, PARTENZA, ARRIVO, _ ), PARTENZA < 12, ARRIVO > 14.
+
+% i voli su cui non si cena (arrivo entro le 19, oppure partenza dalle 21 in poi).
+
+q2(X) :- volo( X, _, _, _, _, ARRIVO, _ ), ARRIVO < 19.
+q2(X) :- volo( X, _, _, _, PARTENZA, _, _ ), PARTENZA >= 21.
+
+% tutti i passeggeri che vanno da milano a roma entro la mattina (arrivo entro le 13).
+
+q3(X) :- passeggero( X, Y), volo( Y, _, A, B, _, C, _), aereoporto( A, milano), aereoporto( B, roma), C < 13.
+
+% i voli che contengono almeno una donna.
+
+q4(Y) :- person( X, f, _), passeggero( X, Y).
+
+% i voli che contengono sia uomini che donne.
+
+q5(Y) :- person( X, f, _), passeggero( X, Y).
+q6(Y) :- person( X, m, _), passeggero( X, Y), q5(Y).
+
+% tutte le coppie di codici di aereoporti connessi in qualche modo.
+
+q7(X,Y) :- volo( _, _, X, Y, _, _, _).
+q7(X,Y) :- q7(X,Z), volo( _, _, Z, Y, _, _, _), X <> Y.
+
+% i possibili colpi di fulmine (persone che volano almeno una volta contemporaneamente sullo stesso aereo)
+
+q8(X,Y) :- person( X, f, _), person( Y, m, _), passeggero( X, Z), passeggero( Y, Z), X < Y.
