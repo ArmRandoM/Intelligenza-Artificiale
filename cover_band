@@ -116,7 +116,7 @@ q13(X) :- plays(X,rem,_), not q12(X).
 % Supponendo che ogni persona conosca tutti quelli cui piace almeno una stessa cover band, e che si possano facilmente conoscere tutte le persone conosciute da un conoscente, calcolare quali persone puo' arrivare a conoscere francesco. Suggerimento: sfruttare la query 04.
 
 %q14(X) :- likes(X, Z), likes(francesco, Z), X <> francesco.
-%q14(X) :- likes(X, Z), likes(Y,Z), q14(Y),  X < Y.
+%q14(X) :- likes(X, Z), likes(Y,Z), q14(Y),  X <> Y, X <> francesco.
 
 q14(X) :- q4(francesco,X).
 q15(X) :- q15(Y), q4(Y,X).
