@@ -1,0 +1,99 @@
+birre(Heinekens, M1).
+birre(Cerees, M2).
+birre(McFarland, M3).
+birre(DUG, M1).
+birre(Peroni, M3).
+birre(NastroAzzurro, M7).
+birre(birreMoretti, M8).
+birre(McChouffe, M9).
+birre(Corona, M1).
+birre(Tuborg, M5).
+birre(OrzoBruno, M10).
+
+vende( Norma, Heinekens, 3.50 ).
+vende( Alan, DUG, 4.50 ).
+vende( Norma, McChouffe , 5.00 ).
+vende( Antonio, DUG, 3.00 ).
+vende( Giovanni, birreMoretti, 2.00 ).
+vende( Norma, Corona, 4.00 ).
+vende( Giovanni, DUG, 4.00 ).
+vende( Gennaro, DUG, 6.00 ).
+vende( Norma, Tuborg, 3.00 ).
+vende( Francesco, DUG, 7.00 ).
+vende( Joh, NastroAzzurro, 1.00 ).
+
+piace(Simo, DUG).
+piace(Simo, Tuborg).
+piace(Elisa, McChouffe).
+piace(Ilaria, Tuborg).
+piace(Mario, corona).
+piace(Davide, NastroAzzurro).
+piace(Concetta, birreMoretti).
+piace(Peppe, Heinekens).
+piace(Stefi, OrzoBruno).
+piace(Giorgio, McFarland).
+piace(Laura, Cerees).
+piace(Elisa, McFarland).
+piace(Ilaria, Cerees).
+piace(Mario, Peroni).
+piace(Davide, Corona).
+piace(Concetta, NastroAzzurro).
+piace(Peppe, birreMoretti).
+piace(Stefi, McFarland).
+piace(Giorgio, OrzoBruno).
+piace(Laura, McFarland).
+
+frequenta(Simo, Norma).
+frequenta(Simo, Alan).
+frequenta(Elisa, Antonio).
+frequenta(Ilaria, Giovanni).
+frequenta(Mario, Gennaro).
+frequenta(Davide, Francesco).
+frequenta(Concetta, Joh).
+frequenta(Peppe, Francesco).
+frequenta(Stefi, Joh).
+frequenta(Giorgio, Gennaro).
+frequenta(Laura, Joh).
+frequenta(Elisa, Giovanni).
+frequenta(Ilaria, Antonio).
+frequenta(Mario, Norma).
+frequenta(Davide, Alan).
+frequenta(Concetta, Joh).
+frequenta(Peppe, Giovanni).
+frequenta(Stefi, Antonio).
+frequenta(Giorgio, Francesco).
+frequenta(Laura, Giovanni).
+
+persona(Simo).
+persona(Elisa).
+persona(Mario).
+persona(Ilaria).
+persona(Davide).
+persona(Concetta).
+persona(Elisa).
+persona(Peppe).
+persona(Stefi).
+persona(Giorgio).
+persona(Laura).
+
+venditore(Norma).
+venditore(Alan).
+venditore(Antonio).
+venditore(Giovanni).
+venditore(Gennaro).
+venditore(Francesco).
+venditore(Joh).
+
+%Le birre che non sono vendute da Norma.
+
+%Chi non incontreremo stasera( se andiamo da Joh ).
+
+%Le birre vendute da Alan che non sono prodotte da M1 e non costano più di 20 €
+
+%Le birre vendute da Alan che non sono prodotte da M1 e non costano più di 10 €
+
+%Il bar in cui la BUD costa di più
+
+%Il bar in cui la Heinekens costa di più
+
+%Gli incontri che non possono avvenire da Joh
