@@ -1,0 +1,122 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Data la seguente base di dati, esprimere in datalog le query richieste.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% persone 
+person(stefania).
+person(francesco).
+person(simona).
+person(giovambattista).
+person(nicola).
+
+% cover band
+coverBand(divino).
+coverBand(sugarPlamFairy).
+coverBand(hives).
+coverBand(comeToMe).
+coverBand(ohYeah).
+
+% etichette discografiche
+label(bmg).
+label(virgin).
+label(island).
+label(ricordi).
+
+% artisti
+artist(u2,island).
+artist(rem,bmg).
+artist(placebo,virgin).
+artist(blur,ricordi).
+artist(radiohead,virgin).
+
+% listens(Person,Artist) - quali artisti ascolta ciascuna persona
+listens(stefania,rem).
+listens(stefania,blur).
+listens(francesco,u2).
+listens(francesco,blur).
+listens(simona,u2).
+listens(simona,placebo).
+listens(nicola,radiohead).
+listens(nicola,u2).
+listens(giovambattista,placebo).
+listens(giovambattista,radiohead).
+
+% plays(CoverBand, Artist, Months) - quali artisti suona ciascun gruppo e da quanti mesi
+plays(divino,u2,30).
+plays(divino,rem,15).
+plays(sugarPlamFairy,u2,24).
+plays(sugarPlamFairy,placebo,30).
+plays(sugarPlamFairy,blur,12).
+plays(hives,u2,30).
+plays(hives,rem,40).
+plays(hives,placebo,20).
+plays(comeToMe,u2,18).
+plays(comeToMe,radiohead,40).
+plays(ohYeah,rem,10).
+
+% likes(Person, CoverBand) - quali cover band apprezza ciascuna persona
+likes(stefania,divino).
+likes(stefania,hives).
+likes(francesco,sugarPlamFairy).
+likes(francesco,divino).
+likes(simona,divino).
+likes(simona,sugarPlamFairy).
+likes(simona,hives).
+likes(nicola,hoYeah).
+likes(giovambattista,hives).
+likes(giovambattista,divino).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% I produttori degli artisti suonati dai divino.
+
+q1(X) :- plays(divino, Y, _), artist(Y, X).
+
+% Stasera andiamo ad un concerto dei divino, chi possiamo incontrare? (suggerimento: fondamentalmente sono le persone cui piacciono i divino....)
+
+q2(X) :- likes(X, Divinio).
+
+% Gli artisti che sono ascoltati sia da simona che da francesco.
+
+q3(X) :- listens(simona, X), listens(francesco, X).
+
+% Le coppie di persone cui piace almeno una stessa cover band. (suggerimento: coppie di persone che unificano su "likes" per una qualche cover band).
+
+q4(X,Y) :- likes(X, Z), likes(Y, Z),  X < Y.
+
+% Gli artisti che sono ascoltati da stefania o da francesco.
+
+q5(X) :- listens(stefania, X).
+q5(X) :- listens(francesco, X).
+
+% Gli artisti che non sono suonati dagli hives.
+
+q6(X) :- plays(hives,X,_).
+q7(X) :- artist(X, _), not q6(X).
+
+% Chi non incontreremo stasera al concerto dei divino? (suggerimento: fondamentalmente sono le persone cui NON piaccciono i divino).
+
+q8(X) :- likes(X, divino).
+q9(X) :- person(X), not q8(X).
+
+% Gli artisti che gli sugarPlamFairy suonano da non piu' di 20 mesi e che 
+% non sono prodotti dalla island. 
+
+q10(X) :- artist(X, island).
+q11(X) :- plays(sugarPlamFairy, X, Y), not q10(X), Y <= 20.
+ 
+
+% La band che suona i rem da piu' tempo.
+
+q12(X) :- plays(X,rem,Z), plays(A,rem,C), X <> A, Z < C.
+q13(X) :- plays(X,rem,_), not q12(X).
+
+% Supponendo che ogni persona conosca tutti quelli cui piace almeno una stessa cover band, e che si possano facilmente conoscere tutte le persone conosciute da un conoscente, calcolare quali persone puo' arrivare a conoscere francesco. Suggerimento: sfruttare la query 04.
+
+%q14(X) :- likes(X, Z), likes(francesco, Z), X <> francesco.
+%q14(X) :- likes(X, Z), likes(Y,Z), q14(Y),  X < Y.
+
+q14(X) :- q4(francesco,X).
+q15(X) :- q15(Y), q4(Y,X).
