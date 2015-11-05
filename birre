@@ -1,99 +1,120 @@
-birre(Heinekens, M1).
-birre(Cerees, M2).
-birre(McFarland, M3).
-birre(DUG, M1).
-birre(Peroni, M3).
-birre(NastroAzzurro, M7).
-birre(birreMoretti, M8).
-birre(McChouffe, M9).
-birre(Corona, M1).
-birre(Tuborg, M5).
-birre(OrzoBruno, M10).
+birre(heineken, m1).
+birre(ceres, m2).
+birre(mcFarland, m3).
+birre(bud, m1).
+birre(peroni, m3).
+birre(nastroAzzurro, m7).
+birre(birraMoretti, m8).
+birre(mcChouffe, m9).
+birre(corona, m1).
+birre(tuborg, m5).
+birre(orzoBruno, m10).
 
-vende( Norma, Heinekens, 3.50 ).
-vende( Alan, DUG, 4.50 ).
-vende( Norma, McChouffe , 5.00 ).
-vende( Antonio, DUG, 3.00 ).
-vende( Giovanni, birreMoretti, 2.00 ).
-vende( Norma, Corona, 4.00 ).
-vende( Giovanni, DUG, 4.00 ).
-vende( Gennaro, DUG, 6.00 ).
-vende( Norma, Tuborg, 3.00 ).
-vende( Francesco, DUG, 7.00 ).
-vende( Joh, NastroAzzurro, 1.00 ).
+vende( norma, heineken, 3 ).
+vende( alan, bud, 21 ).
+vende( norma, mcChouffe , 5 ).
+vende( antonio, bud, 3 ).
+vende( giovanni, birraMoretti, 2 ).
+vende( norma, corona, 4 ).
+vende( giovanni, bud, 4 ).
+vende( gennaro, bud, 6 ).
+vende( norma, tuborg, 3 ).
+vende( francesco, bud, 7 ).
+vende( alan, tuborg, 2 ).
 
-piace(Simo, DUG).
-piace(Simo, Tuborg).
-piace(Elisa, McChouffe).
-piace(Ilaria, Tuborg).
-piace(Mario, corona).
-piace(Davide, NastroAzzurro).
-piace(Concetta, birreMoretti).
-piace(Peppe, Heinekens).
-piace(Stefi, OrzoBruno).
-piace(Giorgio, McFarland).
-piace(Laura, Cerees).
-piace(Elisa, McFarland).
-piace(Ilaria, Cerees).
-piace(Mario, Peroni).
-piace(Davide, Corona).
-piace(Concetta, NastroAzzurro).
-piace(Peppe, birreMoretti).
-piace(Stefi, McFarland).
-piace(Giorgio, OrzoBruno).
-piace(Laura, McFarland).
+piace(simo, bud).
+piace(simo, tuborg).
+piace(elisa, mcChouffe).
+piace(ilaria, tuborg).
+piace(mario, corona).
+piace(davide, nastroAzzurro).
+piace(concetta, birraMoretti).
+piace(peppe, heineken).
+piace(stefi, orzoBruno).
+piace(giorgio, mcFarland).
+piace(laura, ceres).
+piace(elisa, mcFarland).
+piace(ilaria, ceres).
+piace(mario, peroni).
+piace(davide, corona).
+piace(concetta, nastroAzzurro).
+piace(peppe, birraMoretti).
+piace(stefi, mcFarland).
+piace(giorgio, orzoBruno).
+piace(laura, mcFarland).
 
-frequenta(Simo, Norma).
-frequenta(Simo, Alan).
-frequenta(Elisa, Antonio).
-frequenta(Ilaria, Giovanni).
-frequenta(Mario, Gennaro).
-frequenta(Davide, Francesco).
-frequenta(Concetta, Joh).
-frequenta(Peppe, Francesco).
-frequenta(Stefi, Joh).
-frequenta(Giorgio, Gennaro).
-frequenta(Laura, Joh).
-frequenta(Elisa, Giovanni).
-frequenta(Ilaria, Antonio).
-frequenta(Mario, Norma).
-frequenta(Davide, Alan).
-frequenta(Concetta, Joh).
-frequenta(Peppe, Giovanni).
-frequenta(Stefi, Antonio).
-frequenta(Giorgio, Francesco).
-frequenta(Laura, Giovanni).
+frequenta(simo, norma).
+frequenta(simo, alan).
+frequenta(elisa, antonio).
+frequenta(ilaria, giovanni).
+frequenta(mario, gennaro).
+frequenta(davide, francesco).
+frequenta(concetta, joh).
+frequenta(peppe, francesco).
+frequenta(stefi, joh).
+frequenta(giorgio, gennaro).
+frequenta(laura, joh).
+frequenta(elisa, giovanni).
+frequenta(ilaria, antonio).
+frequenta(mario, norma).
+frequenta(davide, alan).
+frequenta(concetta, joh).
+frequenta(peppe, giovanni).
+frequenta(stefi, antonio).
+frequenta(giorgio, francesco).
+frequenta(laura, giovanni).
 
-persona(Simo).
-persona(Elisa).
-persona(Mario).
-persona(Ilaria).
-persona(Davide).
-persona(Concetta).
-persona(Elisa).
-persona(Peppe).
-persona(Stefi).
-persona(Giorgio).
-persona(Laura).
+persona(simo).
+persona(elisa).
+persona(mario).
+persona(ilaria).
+persona(davide).
+persona(concetta).
+persona(peppe).
+persona(stefi).
+persona(giorgio).
+persona(laura).
 
-venditore(Norma).
-venditore(Alan).
-venditore(Antonio).
-venditore(Giovanni).
-venditore(Gennaro).
-venditore(Francesco).
-venditore(Joh).
+venditore(norma).
+venditore(alan).
+venditore(antonio).
+venditore(giovanni).
+venditore(gennaro).
+venditore(francesco).
+venditore(joh).
 
-%Le birre che non sono vendute da Norma.
+%Le birre che non sono vendute da norma.
 
-%Chi non incontreremo stasera( se andiamo da Joh ).
+q1(X) :- vende( norma, X, _).
+q2(X) :- birre( X, _), not q1(X).
 
-%Le birre vendute da Alan che non sono prodotte da M1 e non costano più di 20 €
+%Chi non incontreremo stasera( se andiamo da joh ).
 
-%Le birre vendute da Alan che non sono prodotte da M1 e non costano più di 10 €
+q3(X) :- frequenta( X, joh).
+q4(X) :- persona(X), not q3(X).
 
-%Il bar in cui la BUD costa di più
+%Le birre vendute da alan che non sono prodotte da m1 e non costano più di 20 €
 
-%Il bar in cui la Heinekens costa di più
+q5(X) :- vende( _, X,_), birre( X, m1).
+q6(X) :- vende( alan, X, Y), not q5(X), Y < 20.
 
-%Gli incontri che non possono avvenire da Joh
+%Le birre vendute da alan che non sono prodotte da m1 e costano più di 10 €
+
+q7(X) :- vende( _, X, _), birre( X, m1).
+q8(X) :- vende( alan, X, Y), not q7(X), Y > 10.
+
+%Il bar in cui la bud costa di più
+
+q9(X) :- vende( X, bud, Y), vende( Z, bud, W), X <> Z, Y < W.
+q10(X) :- vende(X, bud, _), not q9(X).
+
+%Il bar in cui la heineken costa di più
+
+q9(X) :- vende( X, heineken, Y), vende( Z, heineken, W), X <> Z, Y < W.
+q10(X) :- vende(X, heineken, _), not q9(X).
+
+%Gli incontri che non possono avvenire da joh
+
+q11(X,Y) :- frequenta( X, _), frequenta( Y, _), X <> Y.
+q12(X) :- frequenta( X, joh).
+q13(X,Y) :- q11(X,Y), not q12(X), not q12(Y), X <> Y, X < Y.
