@@ -2,7 +2,7 @@
 % Data la seguente base di dati, esprimere in datalog le query richieste.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% persone 
+% persone
 person(stefania).
 person(francesco).
 person(simona).
@@ -101,12 +101,12 @@ q7(X) :- artist(X, _), not q6(X).
 q8(X) :- likes(X, divino).
 q9(X) :- person(X), not q8(X).
 
-% Gli artisti che gli sugarPlamFairy suonano da non piu' di 20 mesi e che 
-% non sono prodotti dalla island. 
+% Gli artisti che gli sugarPlamFairy suonano da non piu' di 20 mesi e che
+% non sono prodotti dalla island.
 
 q10(X) :- artist(X, island).
 q11(X) :- plays(sugarPlamFairy, X, Y), not q10(X), Y <= 20.
- 
+
 
 % La band che suona i rem da piu' tempo.
 
@@ -118,5 +118,5 @@ q13(X) :- plays(X,rem,_), not q12(X).
 %q14(X) :- likes(X, Z), likes(francesco, Z), X <> francesco.
 %q14(X) :- likes(X, Z), likes(Y,Z), q14(Y),  X <> Y, X <> francesco.
 
-q14(X) :- q4(francesco,X).
+q15(X) :- q4(francesco,X).
 q15(X) :- q15(Y), q4(Y,X).
