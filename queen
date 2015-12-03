@@ -1,0 +1,8 @@
+riga(1..#maxint).
+queen( X, Y ) | out( X, Y ) :- riga( X ), riga( Y ).
+utilizzata(X) :- queen(X,_).
+:- not utilizzata(X), riga(X).
+:- queen( X, Y1 ), queen( X, Y2 ), Y1 != Y2.
+:- queen( X1, Y ), queen ( X2, Y ), X1 != X2.
+:- queen( X, Y ), queen( Z, W ), Z = X+N, W = Y+N, N > 0, #int(N).
+:- queen( X, Y ), queen( Z, W ), Z = X+N, W = Y-N, N > 0,  #int(N).

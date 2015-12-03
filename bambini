@@ -1,0 +1,46 @@
+#maxint = 4.
+
+bambino( caterina ).
+bambino( federico ).
+bambino( cristina ).
+bambino( marcello ).
+
+strumento( evidenziatore ).
+strumento( matita ).
+strumento( pennello ).
+strumento( pastello ).
+
+usato( X, matita)|usato( X, pastello)|usato( X, evidenziatore)|usato( X, pennello):- bambino(X).
+turno( X, 1 )|turno( X, 2 )|turno( X, 3 )|turno( X, 4 ) :- bambino(X).
+turno(marcello,4).
+presentazione(X,Y,Z) :- usato(X,Y), turno(X,Z).
+
+successivo(X,Y) :- turno(X, T1), turno(Y,T2), X!= Y, T1 = T2+1.
+successivo2(X,Y) :- turno(X, T1), turno(Y,T2), X!= Y, T1 = T2+2.
+
+% 1) un bambino non può essere in due turni diversi
+:-presentazione(X,_,Z), presentazione(X,_,W), Z != W.
+
+% 2) un bambino non può utilizzare due strumenti diversi
+:-presentazione(X,Z,_), presentazione(X,W,_), Z != W.
+
+% 3) due bambini non possono utilizzare lo stesso strumento
+:-presentazione(Z,X,_), presentazione(W,X,_), Z != W.
+
+% 4) due bambini non possono avere lo stesso turno
+:-presentazione(Z,_,X), presentazione(W,_,X), Z != W.
+
+% 5) marcello non può utilizzare l'evidenziatore
+:-presentazione(marcello, evidenziatore, _).
+
+% 6) caterina non può essere al turno numero 2
+:-presentazione(caterina, _, 2).
+
+% 7) cristina non utilizza il pastello
+:-presentazione(cristina, pastello, _).
+
+% 8) il bambino che utilizza la matita viene dopo di quello che utilizza il pennello
+:-presentazione(X,matita,_), presentazione(Y,pennello,_), not successivo(X,Y).
+
+% 9) cristina viene due turni dopo del bambino che utilizza il pastello
+:-presentazione(cristina,_,_), presentazione(X,pastello,_), not successivo2(cristina, X).
