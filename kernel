@@ -1,0 +1,12 @@
+node(1..#maxint).
+
+
+grafo(X,Y)|out(X,Y) :- node(X), node(Y), X != Y.
+nodoin(X) :- grafo(X,Y).
+nodoin(X) :- grafo(Y,X).
+
+nonConnesso(X,Y) :- nodoin(X), nodoin(Y), X != Y, not grafo( X,Y), not grafo(Y,X).
+kernel(X) :- nonConnesso(X,Y).
+kernel(X) :- nonConnesso(Y,X).
+
+:-kernel(X), grafo(X,_).
