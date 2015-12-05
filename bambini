@@ -3,11 +3,6 @@ bambino( federico ).
 bambino( cristina ).
 bambino( marcello ).
 
-strumento( evidenziatore ).
-strumento( matita ).
-strumento( pennello ).
-strumento( pastello ).
-
 usato( X, matita)|usato( X, pastello)|usato( X, evidenziatore)|usato( X, pennello):- bambino(X).
 turno( X, 1 )|turno( X, 2 )|turno( X, 3 )|turno( X, 4 ) :- bambino(X).
 turno(marcello,4).

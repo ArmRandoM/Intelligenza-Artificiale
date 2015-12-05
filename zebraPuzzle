@@ -1,11 +1,5 @@
 #maxint = 5.
 
-casa(verde).
-casa(avorio).
-casa(blu).
-casa(giallo).
-casa(rossa).
-
 nazione(spagna).
 nazione(inghilterra).
 nazione(norvegia).
