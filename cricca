@@ -1,0 +1,14 @@
+node(1..#maxint).
+
+%costruisco un grafo, gli archi creati
+%andranno in arcoin quelli non ammessi in arcoout
+arc(X,Y)|arcoout(X,Y) :- node(X), node(Y), X < Y.
+
+in(X)|out(X) :- node(X).
+
+%regola che prende i nodi che sono collegati da un arco
+collegato(X) :- arc(X,_).
+collegato(X) :- arc(_,X).
+
+%vincoli che dividono i nodi collegati da quelli non collegati
+:- in(X), not collegato(X).

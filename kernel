@@ -1,6 +1,5 @@
 node(1..#maxint).
 
-
 grafo(X,Y)|out(X,Y) :- node(X), node(Y), X != Y.
 nodoin(X) :- grafo(X,Y).
 nodoin(X) :- grafo(Y,X).
