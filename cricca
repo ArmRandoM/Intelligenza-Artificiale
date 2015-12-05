@@ -4,11 +4,12 @@ node(1..#maxint).
 %andranno in arcoin quelli non ammessi in arcoout
 arc(X,Y)|arcoout(X,Y) :- node(X), node(Y), X < Y.
 
-in(X)|out(X) :- node(X).
-
 %regola che prende i nodi che sono collegati da un arco
 collegato(X) :- arc(X,_).
 collegato(X) :- arc(_,X).
 
+in(X)|out(X) :- node(X).
+
 %vincoli che dividono i nodi collegati da quelli non collegati
-:- in(X), not collegato(X).
+:-in(X), not collegato(X).
+:-out(X), collegato(X).
