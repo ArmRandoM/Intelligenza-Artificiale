@@ -12,11 +12,10 @@ nazione(norvegia).
 nazione(russia).
 nazione(giappone).
 
-ordine(1,norvegia).
-
 ordine(1,X) | ordine(2,X) | ordine(3,X) | ordine(4,X) | ordine(5,X) :- nazione(X).
 :-ordine(Y,X), ordine(Z,X), Y != Z.
 :-ordine(X,Y), ordine(X,Z), Y != Z.
+:-not ordine(1,norvegia).
 
 vive(X,verde) | vive(X,avorio) | vive(X,blu) | vive(X,giallo) | vive(X,rossa) :- nazione(X).
 :-vive(Y,X), vive(Z,X), Y != Z.
