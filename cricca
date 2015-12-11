@@ -1,15 +1,19 @@
-node(1..#maxint).
+% Esercizio 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CRICCHE (massimali)
+% Dato un grafo G = <N, A>, diciamo che G ha una cricca di dimensione k se c'e' un insieme di k nodi tale che 
+% ogni coppia di nodi al suo interno e' connessa da un arco.
+% Scrivere un programma logico disgiuntivo che calcoli tutte le cricche massimali (cioe' insiemi tali per cui 
+% non c'e' nessun nodo che possa essere aggiunto senza perdere la proprieta' di essere una cricca) di un dato 
+% grafo, rappresentato tramite la relazione binaria arc(Nodo1, Nodo2).
 
-%costruisco un grafo, gli archi creati
-%andranno in arcoin quelli non ammessi in arcoout
-arc(X,Y)|arcoout(X,Y) :- node(X), node(Y), X < Y.
-
-%regola che prende i nodi che sono collegati da un arco
-collegato(X) :- arc(X,_).
-collegato(X) :- arc(_,X).
-
-in(X)|out(X) :- node(X).
-
-%vincoli che dividono i nodi collegati da quelli non collegati
-:-in(X), not collegato(X).
-:-out(X), collegato(X).
+nodo(1..#maxint).
+arcoin(X,Y)|arcoout(X,Y):-nodo(X),nodo(Y),X<Y.
+nodiconnessi(X):-arcoin(X,_).
+nodiconnessi(X):-arcoin(_,X).
+in(X)|out(X):-nodiconnessi(X).
+:-in(X),in(Y),not arcoin(X,Y),X<Y.
+sconnesso(X):-out(X),in(Y),not arcoin(X,Y),X<Y.
+sconnesso(X):-out(X),in(Y),not arcoin(Y,X),Y<X.
+:-out(X),not sconnesso(X).
+soluzione(X,Y):-in(X),in(Y),X<Y.

@@ -1,0 +1,44 @@
+assassino(maggiordomo).
+assassino(dentista).
+assassino(artista).
+assassino(idraulico).
+assassino(avvocato).
+
+luogo(lamezia, dentista).
+vittima(cugino,dentista).
+moventi(potere, avvocato).
+
+luogo( roma, X) | luogo( milano, X) | luogo(falerna,X) | luogo(napoli,X) | luogo(lamezia, X) :- assassino(X).
+
+:-luogo(Y,X), luogo(Z,X), Y != Z.
+:-luogo(X,Y), luogo(X,Z), Y != Z.
+:-luogo(roma, maggiordomo).
+:-luogo(roma, idraulico).
+
+
+vittima( cugino, X) | vittima(amico, X) | vittima(madre, X) | vittima(partner, X) | vittima(sorella, X) :- assassino(X).
+
+:-vittima(X,Y), vittima(X,Z), Y != Z.
+:-vittima(Y,X), vittima(Z,X), Y != Z.
+:-vittima( amico, avvocato).
+:-vittima(partner, artista).
+:-vittima(partner, maggiordomo ).
+:-vittima(sorella, X), luogo( roma, X).
+:-vittima(sorella, X), luogo( falerna, X).
+
+
+
+moventi(riscatto, X) | moventi(eredita, X) | moventi(amore, X) | moventi(potere, X) | moventi(vendetta, X) :- assassino(X).
+
+:-moventi(X,Y), moventi(X,Z), Y != Z.
+:-moventi(Y,X), moventi(Z,X), Y != Z.
+:-moventi(amore, dentista).
+:-moventi(vendetta, dentista).
+:-moventi(vendetta, X), luogo( falerna, X).
+:-moventi(vendetta, X), luogo( milano, X).
+:-moventi(vendetta,X), vittima( partner, X).
+:-moventi(potere,X), vittima( partner, X).
+:-luogo(roma,X), not moventi(eredita,X).
+:-luogo(falerna, X), moventi( amore, X).
+
+finale( X, Y, Z, W) :- vittima(Y,X), luogo(Z,X), moventi(W,X).
