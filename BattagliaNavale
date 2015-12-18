@@ -1,0 +1,46 @@
+#maxint=6.
+
+riga(1..#maxint).
+nave(1..3).
+
+%prendo tutte le possibili coordinate.
+coordinata(X,Y) :- riga(X), riga(Y).
+
+%creo un Guess nel cui assegno delle coordinate a delle navi.
+navein(Z,X,Y)|naveout(Z,X,Y) :- nave(Z), coordinata(X,Y).
+
+%navi diverse non possono avere le stesse coordinate.
+:- navein(W,X,Y), navein(V,X,Y), W != V.
+
+%ogni nave deve avere assegnate solo 3 coordinate.
+:- nave(Z), not #count{X, Y: navein(Z,X,Y)} = 3.
+
+%trovo tutte le celle di una stessa nave adiacenti in diagonale.
+diagonale(Z,X,Y) :- navein(Z,X,Y), navein(Z,W,V), W = X+1, V = Y+1.
+diagonale(Z,X,Y) :- navein(Z,X,Y), navein(Z,W,V), W = X+1, V = Y-1.
+diagonale(Z,X,Y) :- navein(Z,X,Y), navein(Z,W,V), W = X-1, V = Y+1.
+diagonale(Z,X,Y) :- navein(Z,X,Y), navein(Z,W,V), W = X-1, V = Y-1.
+
+%trovo tutte le celle della nave adiacenti per riga e colonna ma non in diagonale.
+adiacente(Z,X,Y) :- navein(Z,X,Y), navein(Z,W,Y), W = X-1, not diagonale(Z,X,Y).
+adiacente(Z,X,Y) :- navein(Z,X,Y), navein(Z,W,Y), W = X+1, not diagonale(Z,X,Y).
+adiacente(Z,X,Y) :- navein(Z,X,Y), navein(Z,X,V), V = Y+1, not diagonale(Z,X,Y).
+adiacente(Z,X,Y) :- navein(Z,X,Y), navein(Z,X,V), V = Y-1, not diagonale(Z,X,Y).
+
+%trovo navi diverse adiacenti in diagonale.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,W,V), Z != Q, W = X+1, V = Y+1.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,W,V), Z != Q, W = X+1, V = Y-1.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,W,V), Z != Q, W = X-1, V = Y+1.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,W,V), Z != Q, W = X-1, V = Y-1.
+
+%trovo navi diverse adiacenti per riga e colonna.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,W,Y), Z != Q, W = X-1.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,W,Y), Z != Q, W = X+1.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,X,V), Z != Q, V = Y+1.
+naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,X,V), Z != Q, V = Y-1.
+
+%non ci può essere un insieme di risposta (Answer Set) nel quale celle della stessa nave non siano adiacenti per riga e per colonna e non per diagonale.
+:-navein(Z,X,Y), not adiacente(Z,X,Y).
+
+%non ci possono essere navi che siano adiacenti con altre navi, per riga, per colonna e per diagonale.
+:-navein(Z,X,Y), naveadiacente(Z,X,Y).

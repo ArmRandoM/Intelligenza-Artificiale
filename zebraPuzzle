@@ -13,12 +13,10 @@ fuma(giappone,parliaments).
 beve(russia,teh).
 
 ordine(1,X) | ordine(2,X) | ordine(3,X) | ordine(4,X) | ordine(5,X) :- nazione(X).
-:-ordine(Y,X), ordine(Z,X), Y != Z.
 :-ordine(X,Y), ordine(X,Z), Y != Z.
 :-not ordine(1,norvegia).
 
 vive(X,verde) | vive(X,avorio) | vive(X,blu) | vive(X,giallo) | vive(X,rossa) :- nazione(X).
-:-vive(Y,X), vive(Z,X), Y != Z.
 :-vive(X,Y), vive(X,Z), Y != Z.
 :-ordine(2,X), vive(X,Y), Y!=blu.
 
@@ -27,11 +25,9 @@ vicino(X,Y) :- ordine(Z,A), ordine(Q,B), vive(A,X), vive(B,Y), Q=Z+1.
 
 padrone(X,cane) | padrone(X,cavallo) | padrone(X,lumaca) | padrone(X,volpe) | padrone(X,zebra) :- nazione(X).
 :-padrone(Y,X), padrone(Z,X), Y != Z.
-:-padrone(X,Y), padrone(X,Z), Y != Z.
 
 fuma(X,winston) | fuma(X,luckystrike) | fuma(X,chesterfields) | fuma(X,parliaments) | fuma(X,kools) :- nazione(X).
 :-fuma(Y,X), fuma(Z,X), Y != Z.
-:-fuma(X,Y), fuma(X,Z), Y != Z.
 :- fuma(X,chesterfields), vive(X,Y), vive(Q,Z), padrone(Q,volpe), not vicino(Y,Z), not vicino(Z,Y).
 :- fuma(X,kools), vive(X,Y), vive(Q,Z), padrone(Q,cavallo), not vicino(Y,Z), not vicino(Z,Y).
 :- fuma(X,kools), not vive(X,giallo).
@@ -39,7 +35,6 @@ fuma(X,winston) | fuma(X,luckystrike) | fuma(X,chesterfields) | fuma(X,parliamen
 
 beve(X,acqua) | beve(X,caffe) | beve(X,teh) | beve(X,latte) | beve(X,aranciata) :- nazione(X).
 :-beve(Y,X), beve(Z,X), Y != Z.
-:-beve(X,Y), beve(X,Z), Y != Z.
 :-beve(X,aranciata), not fuma(X,luckystrike).
 :-beve(X,caffe), not vive(X,verde).
 :-beve(X,latte), ordine(Y,X), Y != 3.
