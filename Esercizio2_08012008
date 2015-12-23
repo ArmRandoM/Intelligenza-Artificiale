@@ -1,0 +1,39 @@
+#maxint = 50000.
+budget(3000).
+mobile(1, tavolo, 3400).
+mobile(2, tavolo, 350).
+mobile(3, tavolo, 600).
+mobile(4, tavolo, 400).
+mobile(30, tavolo, 200).
+mobile(31, tavolo, 100).
+mobile(32, tavolo, 350).
+mobile(33, tavolo, 75).
+mobile(5, sedia, 50).
+mobile(6, sedia, 50).
+mobile(7, sedia, 50).
+mobile(8, sedia, 50).
+mobile(9, sedia, 50).
+mobile(10, sedia, 100).
+mobile(11, sedia, 100).
+mobile(12, armadio, 500).
+mobile(13, armadio, 450).
+mobile(14, armadio, 600).
+mobile(15, armadio, 650).
+mobile(16, letto, 300).
+mobile(17, letto, 250).
+mobile(18, letto, 300).
+mobile(19, letto, 400).
+mobile(20, poltrona, 300).
+mobile(21, poltrona, 300).
+mobile(22, poltrona, 350).
+mobile(23, poltrona, 400).
+mobile(24, poltrona, 400).
+mobile(25, poltrona, 350).
+mobile(26, poltrona, 1000).
+
+arredamento(X) | fuoriArredamento(X) :- mobile(X,_,_).
+:- #sum{Z,X: mobile(X,_,Z), arredamento(X)} > 3000.
+:- not #count{Y: mobile(X,Y,_), arredamento(X)} = 4.
+:- #count{X: mobile(X,letto,_), arredamento(X)} < 2.
+:~ #count{X: mobile(X,armadio,_), fuoriArredamento(X)}=N, #int(N). [N:2]
+:~ #sum{Z,X: mobile(X,_,Z), arredamento(X)}=N, #int(N). [N:1]

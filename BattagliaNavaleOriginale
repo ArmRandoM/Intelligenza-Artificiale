@@ -1,19 +1,28 @@
-#maxint=3.
+#maxint=10.
 
 riga(1..#maxint).
-nave(1..3).
+sottomarino(1..4).
+torpediniere(5..7).
+incrociatore(8..9).
+portaerei(10).
 
 %prendo tutte le possibili coordinate.
 coordinata(X,Y) :- riga(X), riga(Y).
 
 %creo un Guess nel cui assegno delle coordinate a delle navi.
-navein(Z,X,Y)|naveout(Z,X,Y) :- nave(Z), coordinata(X,Y).
+navein(Z,X,Y)|naveout(Z,X,Y) :- sottomarino(Z), coordinata(X,Y).
+navein(Z,X,Y)|naveout(Z,X,Y) :- torpediniere(Z), coordinata(X,Y).
+navein(Z,X,Y)|naveout(Z,X,Y) :- incrociatore(Z), coordinata(X,Y).
+navein(Z,X,Y)|naveout(Z,X,Y) :- portaerei(Z), coordinata(X,Y).
 
 %navi diverse non possono avere le stesse coordinate.
 :- navein(W,X,Y), navein(V,X,Y), W != V.
 
 %ogni nave deve avere assegnate solo 3 coordinate.
-:- nave(Z), not #count{X, Y: navein(Z,X,Y)} = 3.
+:- sottomarino(Z), not #count{X, Y: navein(Z,X,Y)} = 1.
+:- torpediniere(Z), not #count{X, Y: navein(Z,X,Y)} = 2.
+:- incrociatore(Z), not #count{X, Y: navein(Z,X,Y)} = 3.
+:- portaerei(Z), not #count{X, Y: navein(Z,X,Y)} = 4.
 
 %trovo tutte le celle di una stessa nave adiacenti in diagonale.
 diagonale(Z,X,Y) :- navein(Z,X,Y), navein(Z,W,V), W = X+1, V = Y+1.
@@ -40,7 +49,7 @@ naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,X,V), Z != Q, V = Y+1.
 naveadiacente(Z,X,Y) :- navein(Z,X,Y), navein(Q,X,V), Z != Q, V = Y-1.
 
 %non ci può essere un insieme di risposta (Answer Set) nel quale celle della stessa nave non siano adiacenti per riga e per colonna e non per diagonale.
-:-navein(Z,X,Y), not adiacente(Z,X,Y).
+:-navein(Z,X,Y), not adiacente(Z,X,Y), not sottomarino(Z), not portaerei(Z).
 
 %non ci possono essere navi che siano adiacenti con altre navi, per riga, per colonna e per diagonale.
 :-navein(Z,X,Y), naveadiacente(Z,X,Y).

@@ -1,0 +1,22 @@
+scimmietta(samuele).
+scimmietta(anna).
+scimmietta(margherita).
+scimmietta(michele).
+
+mangia(X,banana) | mangia(X,mela) | mangia(X,pera) | mangia(X,arancia) :- scimmietta(X).
+:- mangia(X,Y), mangia(Z,Y), X != Z.
+
+:- mangia(samuele,banana).
+:- mangia(anna,pera).
+:- mangia(michele,arancia).
+
+seduta(X,ramo) | seduta(X,ruscello) | seduta(X,pietra) | seduta(X,erba) :- scimmietta(X).
+:- seduta(X,Y), seduta(Z,Y), X != Z.
+
+seduta(samuele,erba).
+seduta(anna,ruscello).
+:- seduta(margherita,ramo).
+:- seduta(X,pietra), not mangia(X,mela).
+:- mangia(X,pera), seduta(X,ramo).
+
+soluzione(X,Y,Z) :- mangia(X,Y), seduta(X,Z).

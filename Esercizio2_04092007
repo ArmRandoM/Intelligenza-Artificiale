@@ -1,0 +1,32 @@
+#maxint=500.
+
+abito(arm1, scarpe, rosso, 1).
+abito(arm2, scarpe, marrone, 2).
+abito(arm3, scarpe, nero, 3).
+abito(arm4, scarpe, giallo, 4).
+
+abito(arm10, inferiore, rosso, 10).
+abito(arm11, inferiore, marrone, 20).
+abito(arm12, inferiore, nero, 30).
+abito(arm13, inferiore, giallo, 40).
+
+abito(dom1, intimo, rosso, 10).
+abito(dom2, intimo, marrone, 20).
+abito(dom3, intimo, nero, 30).
+abito(dom4, intimo, giallo, 40).
+
+abito(fra1, superiore, rosso, 1).
+abito(fra2, superiore, giallo, 20).
+abito(fra3, superiore, marrone, 30).
+
+inValigia(X) | fuoriValigia(X) :- abito(X,_,_,_).
+
+:- #sum { Z,X : abito(X,_,_,Z), inValigia(X)} > 300.
+
+tipo(Y) :- abito(X,Y,_,_), inValigia(X).
+:-tipo(Y), #count{X: abito(X,Y,_,_), inValigia(X)} < 2.
+
+colore(Y) :- abito(X,_,Y,_), inValigia(X).
+:-colore(Y), not #count{Z: abito(X,Z,Y,_), inValigia(X)} = 4.
+
+:~ #count{X:fuoriValigia(X)} = N, #int(N). [N:1]

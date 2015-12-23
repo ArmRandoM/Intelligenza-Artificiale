@@ -1,0 +1,31 @@
+persona(orlando,uomo).
+persona(rolando,uomo).
+persona(lella,donna).
+persona(nella,donna).
+persona(bella,donna).
+
+eta(X,13) | eta(X,14) | eta(X,15) | eta(X,16) | eta(X,17) :- persona(X,_).
+:- eta(X,Y), eta(Z,Y), X != Z.
+
+unAnno(X,Y) :- eta(X,A), eta(Y,B), A = B+1.
+:-not unAnno(bella,lella).
+
+dorme(X,bianco) | dorme(X,giallo) | dorme(X,verde) :- persona(X,_).
+
+:- dorme(X,verde), dorme(Y,verde), X != Y.
+:- not #count{X: dorme(X,bianco)} = 2.
+:- not #count{X: dorme(X,giallo)} = 2.
+:- dorme(X,Y), dorme(Z,Y), persona(X,U), persona(Z,D), U != D.
+
+dueAnni(X,Y) :- eta(X,A), eta(Y,B), A = B+2.
+dueAnni(Y,X) :- eta(X,A), eta(Y,B), A = B+2.
+:- dorme(X,giallo), dorme(Y,giallo), not dueAnni(X,Y), X != Y.
+
+treAnni(X,Y) :- eta(X,A), eta(Y,B), A = B+3.
+treAnni(Y,X) :- eta(X,A), eta(Y,B), A = B+3.
+:- dorme(X,bianco), dorme(Y,bianco), not treAnni(X,Y), X != Y.
+
+:- eta(rolando,A), eta(orlando,B), A < B.
+:- eta(rolando,A), eta(X,B), dorme(X,verde), A > B.
+
+soluzione(X,Y,Z) :- eta(X,Y), dorme(X,Z).
