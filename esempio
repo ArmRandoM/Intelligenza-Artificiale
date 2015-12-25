@@ -1,0 +1,9 @@
+#maxint=50.
+s(X,Y):- t(X), t(Y), not u(X).
+t(Y) :- s(Y,X), u(X), X=1+Y.
+s(1,2).
+u(2).
+u(3).
+s(X,X) v t(X) :- u(X), Y=X+1, not u(Y).
+:~ s(X,Y). [ X: Y ]
+:- t(X), u(X).

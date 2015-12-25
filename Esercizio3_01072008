@@ -1,0 +1,74 @@
+persona(lucia).
+persona(anna).
+persona(barbara).
+persona(chiara).
+persona(elisa).
+
+coppia(X,andrea) | coppia(X,gianni) | coppia(X,tommaso) | coppia(X,luca) | coppia(X,marco) :- persona(X).
+:- coppia(X,Y), coppia(Z,Y), X != Z.
+
+cognome(X,rossi) | cognome(X,bianchi) | cognome(X,verdi) | cognome(X,gialli) | cognome(X,neri) :- persona(X).
+:- cognome(X,Y), cognome(Z,Y), X != Z.
+
+anniM(X,4) | anniM(X,6) | anniM(X,8) | anniM(X,10) | anniM(X,12) :- persona(X).
+:- anniM(X,Y), anniM(Z,Y), X != Z.
+
+hobby(X,fotografia) | hobby(X,pesca) | hobby(X,volley) | hobby(X,windserf) | hobby(X,sci) :- persona(X).
+:- hobby(X,Y), hobby(Z,Y), X != Z.
+
+numeroS(X,1) | numeroS(X,2) | numeroS(X,3) :- persona(X).
+
+%1)
+cognome(lucia,rossi).
+unaInMeno(X,Z) :- numeroS(X,Y), numeroS(Z,W), Y = W-1.
+:- hobby(X,fotografia), not unaInMeno(lucia,X).
+
+%2)
+:- hobby(anna,sci).
+
+%3)
+hobby(barbara,pesca).
+seiInMeno(X,Z) :- anniM(X,Y), anniM(Z,W), Y = W-6.
+:- cognome(Y,bianchi), not seiInMeno(barbara,Y).
+
+%4)
+:- cognome(X,verdi), not numeroS(X,2).
+:- anniM(X,10), not numeroS(X,2).
+
+%5)
+:- anni(X,12), hobby(X,volley).
+:- coppia(X,andrea), anniM(Y,12), X != Y, numeroS(X,Z), numeroS(Y,W), Z >= W.
+
+%6)
+:- coppia(lucia,gianni).
+:- coppia(X,gianni), not hobby(X,windserf).
+coppia(elisa,tommaso).
+seiInPiu(X,Z) :- anniM(X,Y), anniM(Z,W), Y = W+6.
+:- cognome(X,gialli), not seiInPiu(elisa,X).
+
+%7)
+quattroInPiu(X,Z) :- anniM(X,Y), anniM(Z,W), Y = W+4.
+:- hobby(X,sci), coppia(Y,luca), X != Y, not quattroInPiu(X,Y).
+dueInMeno(X,Z) :- anniM(X,Y), anniM(Z,W), Y = W-2.
+:- hobby(X,sci), cognome(Y,bianchi), X != Y, not dueInMeno(X,Y).
+
+%8)
+numeroS(barbara,3).
+:- anniM(barbara,6).
+
+%9)
+:- cognome(X,neri), not numeroS(X,1).
+:- cognome(X,neri), hobby(X,sci).
+
+%10)
+:- coppia(chiara,andrea).
+:- coppia(X,andrea), not anniM(X,8).
+
+%11)
+:- coppia(chiara,marco).
+:- coppia(X,marco), not hobby(X,fotografia).
+
+%12)
+:- anniM(X,10), not hobby(X,volley).
+
+soluzione(X,Y,Z) :- coppia(X,Y), cognome(X,Z).

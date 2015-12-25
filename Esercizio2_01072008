@@ -1,0 +1,29 @@
+#maxint=2000.
+
+ricetta(pasta,10, 100).
+ricetta(pasta2,20, 100).
+ricetta(pasta3,10, 200).
+ricetta(pasta4,10, 100).
+decorazione(d1,70).
+decorazione(d2, 50).
+decorazione(d3, 30).
+decorazione(d4,50).
+decorazione(d5,10).
+decorazione(d6,10).
+
+inCasa(X,Y) | nonInCasa(X,Y) :- decorazione(X,Y).
+aTavola(X,Y) | nonATavola(X,Y) :- ricetta(X,_,Y).
+
+sommaCiccio(X) :- #sum{A,B: inCasa(B,A)} = X, #int(X).
+sommaRenata(X) :- #sum{A,B: aTavola(B,A)} = X, #int(X).
+
+sommaTotale(X) :- sommaCiccio(A), sommaRenata(B), #int(X), X = A+B.
+differenza(X) :- sommaCiccio(A), sommaRenata(B), #int(X), A > B, X = A-B.
+differenza(X) :- sommaCiccio(A), sommaRenata(B), #int(X), A < B, X = B-A.
+
+:- sommaTotale(X), X > 500.
+:~ sommaTotale(X). [X:1]
+:~ differenza(X). [X:1]
+:- #count{X: inCasa(X,_)} < 5.
+:~ #count{X: nonATavola(X,_)} = N, #int(N). [N:1]
+:- #sum{Y: ricetta(X,Y,_), aTavola(X,_)} = N, #int(N), N > 240.
