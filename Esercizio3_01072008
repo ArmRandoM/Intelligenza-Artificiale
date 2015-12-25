@@ -36,7 +36,7 @@ seiInMeno(X,Z) :- anniM(X,Y), anniM(Z,W), Y = W-6.
 :- anniM(X,10), not numeroS(X,2).
 
 %5)
-:- anni(X,12), hobby(X,volley).
+:- anniM(X,12), hobby(X,volley).
 :- coppia(X,andrea), anniM(Y,12), X != Y, numeroS(X,Z), numeroS(Y,W), Z >= W.
 
 %6)
@@ -71,4 +71,4 @@ numeroS(barbara,3).
 %12)
 :- anniM(X,10), not hobby(X,volley).
 
-soluzione(X,Y,Z) :- coppia(X,Y), cognome(X,Z).
+soluzione(X,Y,Z) :- coppia(Y,X), cognome(Y,Z).
