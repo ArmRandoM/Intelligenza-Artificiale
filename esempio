@@ -1,9 +1,35 @@
-#maxint=50.
-s(X,Y):- t(X), t(Y), not u(X).
-t(Y) :- s(Y,X), u(X), X=1+Y.
-s(1,2).
-u(2).
-u(3).
-s(X,X) v t(X) :- u(X), Y=X+1, not u(Y).
-:~ s(X,Y). [ X: Y ]
-:- t(X), u(X).
+#maxint=6.
+nome(arrigo).
+nome(sara).
+nome(paolo).
+nome(wanda).
+nome(andrea).
+cognome(verdi,N) v cognome(mori,N) v cognome(bruni,N) v cognome(rossi,N) v
+cognome(neri,N) :- nome (N).
+:- cognome (C,N1), cognome(C,N2), N1 != N2.
+passione(scherma,N) v passione(ritmica,N) v passione(sincro,N) v passione(lotta,N) v
+passione(giavellotto,N) :-
+nome (N).
+:- passione (P,N1), passione(P,N2), N1 != N2.
+durata(4,N) v durata(5,N) v durata(6,N) :- nome(N).
+medaglia(oro,N) v medaglia(argento,N) v medaglia(bronzo,N) :- nome(N).
+medaglia(bronzo, sara).
+:- passione(scherma,N), not medaglia(bronzo,N).
+:- cognome(verdi,N), durata(5,N).
+medaglia(oro,paolo).
+:- cognome(mori,paolo).
+:- durata(D,paolo), durata(D2,wanda), not unoinpiu(D,D2).
+unoinpiu(D1,D2) :- D1=D2+1.
+:-durata(D1,andrea), passione(ritmica,N), durata(D2,N), not unoinpiu(D1,D2).
+:- passione(giavellotto,N), not medaglia(argento,N).
+:- passione(giavellotto,N), not cognome(verdi,N).
+:- passione(sincro, N), not durata(6,N).
+:- cognome(mori, N), not durata(6,N).
+:- cognome(neri, N), not passione(lotta,N).
+cognome(bruni, wanda).
+medaglia(oro,wanda).
+:-passione(sincro,wanda).
+:- cognome(rossi,N), not passione(scherma,N).
+:-passione(ritmica,N), not durata(4,N).
+:- durata(4,arrigo).
+:- durata(4,paolo).

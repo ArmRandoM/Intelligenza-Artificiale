@@ -1,0 +1,18 @@
+#maxint = 3000.
+
+giorno(1..3).
+
+gara(1, atletica, 1, 30 ).
+gara(3, nuoto, 2, 50 ).
+gara(5, atletica, 3, 70 ).
+gara(2, atletica, 2, 55 ).
+gara(4, calcio, 1, 60 ).
+gara(6, lotta, 3, 50 ) .
+
+garaSeguita(X,Y) | garaNonSeguita(X,Y) :- gara(X,_,_,Y).
+:- #sum{Y,X: garaSeguita(X,Y)} > 2000.
+:- giorno(X), #count{Y: gara(Y,_,X,_), garaSeguita(Y,_)} = N, #int(N), N != 1.
+giorniConsecutivi(X,Y) :- giorno(X), giorno(Y), Y = X+1.
+:- gara(X,Y,A,_), gara(Z,Y,B,_), garaSeguita(X,_), garaSeguita(Z,_), X != Z, giorniConsecutivi(A,B).
+:~ #count{X: gara(X,atletica,_,_), garaNonSeguita(X,_)} = N, #int(N). [N:1]
+:~ #sum{Y,X: garaSeguita(X,Y)} = N, #int(N). [N:1]
