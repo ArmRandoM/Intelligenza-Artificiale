@@ -1,0 +1,74 @@
+#maxint = 1000.
+
+giocatore(1,italiana).
+giocatore(2,francese).
+giocatore(3,italiana).
+giocatore(4,inglese).
+giocatore(5,francese).
+giocatore(6,inglese).
+giocatore(7,tedesca).
+giocatore(8,spagnola).
+giocatore(9,francese).
+giocatore(10,spagnola).
+giocatore(11,tedesca).
+
+squadra(1).
+squadra(2).
+squadra(3).
+squadra(4).
+squadra(5).
+
+offerta(1, 2, 10).
+offerta(3, 2, 15).
+offerta(1, 1, 1).
+offerta(2, 10, 5).
+offerta(3, 11, 7).
+offerta(2, 9, 10).
+offerta(1, 7, 15).
+offerta(3, 7, 3).
+offerta(5, 8, 9).
+offerta(3, 8, 6).
+offerta(2, 3, 5).
+offerta(2, 5, 11).
+offerta(3, 5, 13).
+offerta(1, 4, 15).
+offerta(2, 4, 7).
+offerta(3, 6, 10).
+offerta(4, 5, 10).
+
+squadraDesiderata(1,1).
+squadraDesiderata(2,2).
+squadraDesiderata(3,3).
+squadraDesiderata(4,4).
+squadraDesiderata(5,5).
+squadraDesiderata(6,1).
+squadraDesiderata(7,2).
+squadraDesiderata(8,3).
+squadraDesiderata(9,4).
+squadraDesiderata(10,5).
+squadraDesiderata(11,1).
+squadraDesiderata(1,3).
+squadraDesiderata(2,4).
+squadraDesiderata(3,5).
+squadraDesiderata(4,1).
+squadraDesiderata(5,2).
+squadraDesiderata(6,4).
+squadraDesiderata(7,5).
+squadraDesiderata(8,2).
+squadraDesiderata(9,3).
+squadraDesiderata(10,2).
+squadraDesiderata(11,3).
+
+
+inSquadra(X,Y) | nonInSquadra(X,Y) :- giocatore(X,_), squadra(Y).
+:- inSquadra(X,Y), inSquadra(X,Z), Y != Z.
+
+venduto(X) :- inSquadra(X,_).
+:- giocatore(X,_), not venduto(X).
+squadraT(X) :- inSquadra(_,X).
+:- squadra(X), not squadraT(X).
+:- squadra(X), #count{Y: inSquadra(Y,X)} = N, #int(N), N < 1.
+:- squadra(X), #count{Y: inSquadra(Y,X)} = N, #int(N), N > 3.
+:- inSquadra(X,Y), not squadraDesiderata(X,Y).
+:~ squadra(X), #count{Y: giocatore(Z,Y), inSquadra(Z,X)} = N, #int(N). [N:2]
+:~ #sum{Z: offerta(Y,X,Z), nonInSquadra(X,Y)} = N, #int(N). [N:1]

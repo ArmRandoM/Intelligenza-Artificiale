@@ -1,0 +1,40 @@
+settore(1..#maxint).
+gruppo(1..#maxint).
+riga(1..#maxint).
+
+coordinata(X,Y) :- riga(X), riga(Y).
+
+settoreIn(X,Y,S) | settoreOut(X,Y,S) :- coordinata(X,Y), settore(S).
+
+:-settoreIn(X,Y,Z), settoreIn(X,Y,W), Z != W.
+
+settorePresente(S) :- settoreIn(_,_,S).
+:- settore(X), not settorePresente(X).
+
+coordinataPresente(X,Y) :- settoreIn(X,Y,_).
+:- coordinata(X,Y), not coordinataPresente(X,Y).
+
+settoreAdiacente(X,Y,Z,Y,S) :- settoreIn(X,Y,S), settoreIn(Z,Y,S), Z = X+1.
+settoreAdiacente(X,Y,Z,Y,S) :- settoreIn(X,Y,S), settoreIn(Z,Y,S), Z = X-1.
+settoreAdiacente(X,Y,X,Z,S) :- settoreIn(X,Y,S), settoreIn(X,Z,S), Z = Y+1.
+settoreAdiacente(X,Y,X,Z,S) :- settoreIn(X,Y,S), settoreIn(X,Z,S), Z = Y-1.
+
+settoreAdiacente(X,Y,C,B,S) :- settoreAdiacente(X,Y,A,B,S), settoreIn(C,B,S), C = A+1.
+settoreAdiacente(X,Y,C,B,S) :- settoreAdiacente(X,Y,A,B,S), settoreIn(C,B,S), C = A-1.
+settoreAdiacente(X,Y,A,C,S) :- settoreAdiacente(X,Y,A,B,S), settoreIn(A,C,S), C = B+1.
+settoreAdiacente(X,Y,A,C,S) :- settoreAdiacente(X,Y,A,B,S), settoreIn(A,C,S), C = B-1.
+
+:- settoreIn(X,Y,S), settoreIn(Z,W,S), not settoreAdiacente(X,Y,Z,W,S).
+
+gruppoDiEmergenza(X,Y,S) | gruppoDiEmergenzaOut(X,Y,S) :- settoreIn(X,Y,S).
+
+:- gruppoDiEmergenza(X,Y,S), gruppoDiEmergenza(Z,W,S), X != Z, Y != W.
+:- gruppoDiEmergenza(X,Y,_), gruppoDiEmergenza(Z,Y,_), X != Z.
+:- gruppoDiEmergenza(X,Y,_), gruppoDiEmergenza(X,W,_), Y != W.
+:- gruppoDiEmergenza(X,Y,_), gruppoDiEmergenza(Z,W,_), Z = X+1, W = Y+1.
+:- gruppoDiEmergenza(X,Y,_), gruppoDiEmergenza(Z,W,_), Z = X-1, W = Y-1.
+:- gruppoDiEmergenza(X,Y,_), gruppoDiEmergenza(Z,W,_), Z = X-1, W = Y+1.
+:- gruppoDiEmergenza(X,Y,_), gruppoDiEmergenza(Z,W,_), Z = X+1, W = Y-1.
+
+settoreGruppo(X) :- gruppoDiEmergenza(_,_,X).
+:- settore(X), not settoreGruppo(X).
