@@ -1,0 +1,57 @@
+riga(1..#maxint).
+
+numero(X) :- #int(N), #int(X), #int(D), X = N+1, D = #maxint/2, X <= D.
+
+coordinata(X,Y) :- riga(X), riga(Y).
+
+numeroIn(X,Y,Z) | numeroOut(X,Y,Z) :- coordinata(X,Y), numero(Z).
+:- numeroIn(X,Y,Z), numeroIn(X,Y,V), Z != V.
+
+coordinateUtilizzate(X,Y) :- numeroIn(X,Y,_).
+:-coordinata(X,Y), not coordinateUtilizzate(X,Y).
+
+:- numeroIn(X,Y,Z), numeroIn(W,Y,Z), W = X+1.
+:- numeroIn(X,Y,Z), numeroIn(W,Y,Z), W = X-1.
+:- numeroIn(X,Y,Z), numeroIn(X,W,Z), W = Y+1.
+:- numeroIn(X,Y,Z), numeroIn(X,W,Z), W = Y-1.
+
+:- riga(X), numero(Y), #count{Z: numeroIn(X,Z,Y)} = N, #int(N), N != 2.
+:- riga(X), numero(Y), #count{Z: numeroIn(Z,X,Y)} = N, #int(N), N != 2.
+
+settoreOrizzontale(X,Y,Z)|settoreOrizzontaleOut(X,Y,Z) :- coordinata(X,Y), riga(Z).
+settoreVerticale(X,Y,Z)|settoreVerticaleOut(X,Y,Z) :- coordinata(X,Y), riga(Z).
+
+:- settoreOrizzontale(X,Y,Z), settoreOrizzontale(X,Y,V), Z != V.
+:- settoreOrizzontale(X,Y,Z), settoreOrizzontale(V,W,Z), X != V, Y != W.
+:- settoreVerticale(X,Y,Z), settoreVerticale(X,Y,V), Z != V.
+:- settoreVerticale(X,Y,Z), settoreVerticale(V,W,Z), X != V, Y != W.
+:- settoreVerticale(X,Y,_), settoreOrizzontale(X,Y,_).
+
+coordinateSettori(X,Y) :- settoreOrizzontale(X,Y,_).
+coordinateSettori(X,Y) :- settoreVerticale(X,Y,_).
+:- coordinata(X,Y), not coordinateSettori(X,Y).
+
+adiacenteOrizzontale(X,Y,X,A,Z) :- settoreOrizzontale(X,Y,Z), settoreOrizzontale(X,A,Z), A = Y+1.
+adiacenteOrizzontale(X,Y,X,A,Z) :- settoreOrizzontale(X,Y,Z), settoreOrizzontale(X,A,Z), A = Y-1.
+adiacenteVerticale(X,Y,A,Y,Z) :- settoreVerticale(X,Y,Z), settoreVerticale(A,Y,Z), A = X+1.
+adiacenteVerticale(X,Y,A,Y,Z) :- settoreVerticale(X,Y,Z), settoreVerticale(A,Y,Z), A = X-1.
+
+adiacenteOrizzontale(X,Y,X,B,Z) :- adiacenteOrizzontale(X,Y,X,F,Z), settoreOrizzontale(X,B,Z), B = F+1.
+adiacenteOrizzontale(X,Y,X,B,Z) :- adiacenteOrizzontale(X,Y,X,F,Z), settoreOrizzontale(X,B,Z), B = F-1.
+adiacenteVerticale(X,Y,A,Y,Z) :- adiacenteVerticale(X,Y,F,Y,Z), settoreVerticale(A,Y,Z), A = F-1.
+adiacenteVerticale(X,Y,A,Y,Z) :- adiacenteVerticale(X,Y,F,Y,Z), settoreVerticale(A,Y,Z), A = F+1.
+
+:- settoreOrizzontale(X,Y,Z), settoreOrizzontale(X,V,Z), not adiacenteOrizzontale(X,Y,X,V,Z).
+:- settoreVerticale(X,Y,Z), settoreVerticale(V,Y,Z), not adiacenteVerticale(X,Y,V,Y,Z).
+
+numeroSO(X) :- settoreOrizzontale(_,_,X).
+numeroSV(X) :- settoreVerticale(_,_,X).
+
+:- #int(N), #int(D), numeroSO(Z), #count{X,Y: settoreOrizzontale(X,Y,Z)} = N, M = #maxint/2, N != M.
+:- #int(N), #int(D), numeroSV(Z), #count{X,Y: settoreVerticale(X,Y,Z)} = N, M = #maxint/2, N != M.
+
+:- settoreOrizzontale(X,Y,Z), settoreOrizzontale(W,T,Z), numeroIn(X,Y,C), numeroIn(W,T,C), X != W, Y != T.
+:- settoreVerticale(X,Y,Z), settoreVerticale(W,T,Z), numeroIn(X,Y,C), numeroIn(W,T,C), X != W, Y != T.
+
+soluzioneOrizzontale(X,Y,S,N) :- numeroIn(X,Y,N), settoreOrizzontale(X,Y,S).
+soluzioneVerticale(X,Y,S,N) :- numeroIn(X,Y,N), settoreVerticale(X,Y,S).
