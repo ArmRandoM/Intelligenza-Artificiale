@@ -1,10 +1,6 @@
-#maxint=100.
+#maxint
 
 a(Z) :- c(Z,Y), b(Y), Y=1+Z.
 c(Y,Z):- a(Y), a(Z), not b(Y).
-c(Z,Z) v a(Z) :- b(Z), not b(Y), Y=Z+1.
-
-:~ c(X,Z). [ X: Z ]
-
 c(1,2).
 b(2). b(3). b(4).

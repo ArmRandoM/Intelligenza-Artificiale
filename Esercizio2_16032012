@@ -1,0 +1,56 @@
+#maxint= 1000.
+
+sponsor(1).
+sponsor(2).
+sponsor(3).
+
+
+aspirante(armando,uomo,canto).
+aspirante(elisa,donna,ballo).
+aspirante(frank,uomo,canto).
+aspirante(luana,donna,ballo).
+aspirante(dom,uomo,ballo).
+aspirante(elsa,donna,ballo).
+
+regione(calabria).
+regione(campania).
+regione(puglia).
+regione(lazio).
+regione(basilicata).
+
+talento(ballo).
+talento(canto).
+
+miPiace(armando,calabria).
+miPiace(elisa,lazio).
+miPiace(frank,basilicata).
+miPiace(dom,basilicata).
+
+nonMiPiace(armando,campania).
+nonMiPiace(elisa,puglia).
+nonMiPiace(frank,campania).
+nonMiPiace(dom,puglia).
+
+chissenefrega(armando,basilicata).
+chissenefrega(elisa,basilicata).
+chissenefrega(frank,basilicata).
+chissenefrega(dom,lazio).
+
+sponsorizzato(X,Y) | sponsorizzatoOut(X,Y) :- aspirante(X,_,_), sponsor(Y).
+:- sponsorizzato(X,Y), sponsorizzato(X,Z), Y != Z.
+
+:- sponsor(X), #count{Z: sponsorizzato(Z,X)} < 1.
+:- sponsor(X), #count{Z: sponsorizzato(Z,X)} > 2.
+
+numeroDonne(X) :- #count{N: aspirante(N,donna,_), sponsorizzato(N,_)} = X, #int(X).
+numeroUomini(X) :- #count{N: aspirante(N,uomo,_), sponsorizzato(N,_)} = X, #int(X).
+
+:- numeroDonne(X), numeroUomini(Y), X != Y.
+
+:- talento(X), #count{Z: aspirante(Z,_,X), sponsorizzato(Z,_)} < 1.
+
+sponsorizzati(X) :- sponsorizzato(X,Y).
+nonSponsorizzato(X) :- aspirante(X,_,_), not sponsorizzati(X).
+
+:~ #count{R,X: miPiace(X,R), nonSponsorizzato(X)} = N, #int(N). [N:1]
+:~ #count{R,X: chissenefrega(X,R), sponsorizzato(X,_)} = N, #int(N). [N:2]
