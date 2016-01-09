@@ -1,0 +1,52 @@
+riga(1..#maxint).
+coordinata(X,Y) :- riga(X), riga(Y).
+numero(0..2).
+
+numeroOccupante(0,1,2).
+numeroOccupante(2,2,5).
+numeroOccupante(0,3,4).
+
+occupataBambino(X,Y) | nonOccupataBambino(X,Y) :- coordinata(X,Y).
+:- occupataBambino(X,Y), numeroOccupante(_,X,Y).
+
+rigaUtilizzataBambino(X) :- occupataBambino(X,_).
+:- riga(X), not rigaUtilizzataBambino(X).
+
+colonnaUtilizzataBambino(Y) :- occupataBambino(_,Y).
+:- riga(X), not colonnaUtilizzataBambino(X).
+
+soloUnBambinoRiga(X) :- rigaUtilizzataBambino(X), #count{Y: occupataBambino(X,Y)}= 1.
+soloUnBambinoColonna(X) :- colonnaUtilizzataBambino(X), #count{Y: occupataBambino(Y,X)} = 1.
+
+:- occupataBambino(X,_), not soloUnBambinoRiga(X).
+:- occupataBambino(_,Y), not soloUnBambinoColonna(Y).
+
+occupataAlbero(X,Y) | nonOccupataAlbero(X,Y) :- coordinata(X,Y).
+:- occupataAlbero(X,Y), numeroOccupante(_,X,Y).
+:- occupataAlbero(X,Y), occupataBambino(X,Y).
+
+rigaUtilizzataAlbero(X) :- occupataAlbero(X,_).
+:-  riga(X), not rigaUtilizzataAlbero(X).
+
+colonnaUtilizzataAlbero(Y) :- occupataAlbero(_,Y).
+:-  riga(X), not colonnaUtilizzataAlbero(X).
+
+soloUnAlberoRiga(X) :- rigaUtilizzataAlbero(X), #count{Y: occupataAlbero(X,Y)}= 1.
+soloUnAlberoColonna(X) :- colonnaUtilizzataAlbero(X), #count{Y: occupataAlbero(Y,X)} = 1.
+
+:- occupataAlbero(X,_), not soloUnAlberoRiga(X).
+:- occupataAlbero(_,Y), not soloUnAlberoColonna(Y).
+
+alberoPrimaRiga(X,Y,X,C) :- numeroOccupante(_,X,Y), occupataBambino(X,C), occupataAlbero(X,D), Y < D, D < C.
+alberoDopoRiga(X,Y,X,C) :- numeroOccupante(_,X,Y), occupataBambino(X,C), occupataAlbero(X,D), Y > D, D > C.
+
+alberoPrimaColonna(X,Y,C,Y) :- numeroOccupante(_,X,Y), occupataBambino(C,Y), occupataAlbero(D,Y), X < D, D < C.
+alberoDopoColonna(X,Y,C,Y) :- numeroOccupante(_,X,Y), occupataBambino(C,Y), occupataAlbero(D,Y), X > D, D > C.
+
+bambinoInVista(X,Y,X,C) :- numeroOccupante(_,X,Y), occupataBambino(X,C), not alberoPrimaRiga(X,Y,X,C), not alberoDopoRiga(X,Y,X,C).
+
+bambinoInVista(Y,X,C,X) :- numeroOccupante(_,Y,X), occupataBambino(C,X), not alberoPrimaColonna(Y,X,C,X), not alberoDopoColonna(Y,X,C,X).
+
+bambiniVisti(N,X,Y) :- numeroOccupante(_,X,Y), #count{A,B: bambinoInVista(X,Y,A,B)} = N, #int(N).
+
+:- numeroOccupante(X,Y,Z), not bambiniVisti(X,Y,Z).
