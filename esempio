@@ -1,10 +1,12 @@
-#maxint=100.
+#maxint = 500.
 
-a(Z) :- c(Z,Y), b(Y), Y=1+Z.
-c(Y,Z):- a(Y), a(Z), not b(Y).
-c(Z,Z) v a(Z) :- b(Z), not b(Y), Y=Z+1.
-
-:~ c(X,Z). [ X: Z ]
-
-c(1,2).
-b(2). b(3). b(4).
+c(Y):- b(Y), not a(Y,Y).
+c(Y) :- a(Y,X), b(X), Y=X-1.
+a(X,X) :- b(X), Y=X+1, not b(Y),not c(X).
+a(X,Y):- c(X), c(Y), not b(X).
+a(1,2).
+b(2).
+b(3).
+:~ a(_,X). [ X: 1 ]
+:~ a(X,Y),c(X). [X:Y]
+:-not #sum{X,Y:a(X,Y)}=5.

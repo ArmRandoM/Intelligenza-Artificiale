@@ -1,0 +1,70 @@
+#maxint=1000.
+
+artista(adele,cantante,1,1).
+artista(giovanni,cantante,1,1).
+artista(fabrizio,cantante,1,1).
+artista(gianna,cantante,1,1).
+artista(francesco,cantante,1,1).
+artista(pierfranco,cantante,1,1).
+artista(franco,cantante,1,1).
+artista(giammarco,cantante,1,1).
+artista(pierpaolo,cantante,1,1).
+artista(piero,cantante,1,1).
+artista(davide,cantante,1,1).
+artista(ignazio,cantante,1,1).
+artista(ezio,cantante,1,1).
+artista(pelu,cantante,1,1).
+artista(negramaro,cantante,1,1).
+artista(negrita,cantante,1,1).
+artista(checco,cantante,1,1).
+artista(arisa,cantante,1,1).
+
+artista(gianluca,ospite,2,1).
+artista(silvestro,ospite,2,3).
+artista(pietro,ospite,2,3).
+artista(paolo,ospite,2,2).
+artista(mimi,ospite,2,2).
+artista(coco,ospite,2,1).
+artista(gennaro,ospite,2,1).
+artista(vincenzo,ospite,2,3).
+artista(federico,ospite,2,2).
+artista(gemma,ospite,2,3).
+artista(greta,ospite,2,2).
+artista(felice,ospite,2,3).
+
+nSlotPerFascia(5).
+
+serata(1..4).
+
+fascia(1..3).
+
+serataFasciaOraria(X,Y) :- serata(X), fascia(Y).
+
+esibizione(X,Y,Z) | nonEsibizione(X,Y,Z) :- serataFasciaOraria(X,Y), artista(Z,_,_,_).
+:- esibizione(X,Y,Z), esibizione(X,V,Z), Y != V.
+
+artistaEsibito(X) :- esibizione(_,_,X).
+:- artista(X,_,_,_), not artistaEsibito(X).
+
+serataEsibizione(X) :- esibizione(X,_,_).
+:- serata(X), not serataEsibizione(X).
+
+fasciaEsibizione(X) :- esibizione(_,X,_).
+:- fascia(X), not fasciaEsibizione(X).
+
+esibizioneCantante(X) :- artista(X,cantante,_,_), #count{Y: esibizione(Y,_,X)} = 2.
+esibizioneOspite(X) :- artista(X,ospite,_,_), #count{Y,V: esibizione(Y,V,X)} = 1.
+
+:- artista(X,cantante,_,_), esibizione(_,_,X), not esibizioneCantante(X).
+:- artista(X,ospite,_,_), esibizione(_,_,X), not esibizioneOspite(X).
+
+numeroSlotFascia(F,N) :- fascia(F), serata(S), #sum{X,Y: esibizione(S,F,Y), artista(Y,_,X,_)} = N, #int(N).
+:- esibizione(_,F,_), numeroSlotFascia(F,N), not nSlotPerFascia(N).
+
+minoreDiTre(F,S) :- fascia(F), serata(S), #count{X: artista(X,cantante,_,_), esibizione(S,F,X)} = N, #int(N), N < 3.
+:- esibizione(S,F,_), minoreDiTre(F,S).
+
+:~ #count{Z: artista(Z,ospite,_,_), esibizione(_,3,Z)} = N, #int(N). [N:2]
+
+importanzaSerata(X,N) :- serata(X), #sum{V,Y: artista(Y,_,_,V), esibizione(X,_,Y)} = N, #int(N).
+:~ esibizione(X,_,_), esibizione(Y,_,_), X != Y, importanzaSerata(X,V), importanzaSerata(Y,Z), Z >= V, D = Z-V, #int(D). [D:1]
