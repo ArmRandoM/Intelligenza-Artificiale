@@ -1,0 +1,42 @@
+#maxint=200.
+
+numero(1..90).
+fila(1..3).
+colonna(1..9).
+
+casella(X,Y) :- fila(X), colonna(Y).
+
+casellaIn(N,X,Y)|casellaOut(N,X,Y) :- numero(N), casella(X,Y).
+:- casellaIn(N,X,Y), casellaIn(N,V,Z), X != V, Y != Z.
+:- casellaIn(N,X,Y), casellaIn(N,X,Z), Y != Z.
+:- casellaIn(N,X,Y), casellaIn(N,V,Y), X != V.
+:- casellaIn(A,X,Y), casellaIn(B,X,Y), A != B.
+
+:- #count{N: casellaIn(N,_,_)} = X, #int(X), X != 15.
+
+numeriContenutiRiga(N) :- fila(X), #count{Z: casellaIn(Z,X,_)} = N, #int(N).
+numeriContenutiColonna(N) :- colonna(Y), #count{Z: casellaIn(Z,_,Y)} = N, #int(N).
+
+:- numeriContenutiRiga(N), N < 1.
+:- numeriContenutiRiga(N), N > 2.
+:- numeriContenutiColonna(N), N != 5.
+
+:-casellaIn(N,_,1), N > 9.
+:-casellaIn(N,_,2), N < 10.
+:-casellaIn(N,_,2), N > 19.
+:-casellaIn(N,_,3), N < 20.
+:-casellaIn(N,_,3), N > 29.
+:-casellaIn(N,_,4), N < 30.
+:-casellaIn(N,_,4), N > 39.
+:-casellaIn(N,_,5), N < 40.
+:-casellaIn(N,_,5), N > 49.
+:-casellaIn(N,_,6), N < 50.
+:-casellaIn(N,_,6), N > 59.
+:-casellaIn(N,_,7), N < 60.
+:-casellaIn(N,_,7), N > 69.
+:-casellaIn(N,_,8), N < 70.
+:-casellaIn(N,_,8), N > 79.
+:-casellaIn(N,_,9), N < 80.
+:-casellaIn(N,_,9), N > 90.
+
+:- casellaIn(N,_,Y), casellaIn(C,_,Y), N = C+1.
