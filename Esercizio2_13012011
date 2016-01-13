@@ -70,5 +70,5 @@ squadraT(X) :- inSquadra(_,X).
 :- squadra(X), #count{Y: inSquadra(Y,X)} = N, #int(N), N < 1.
 :- squadra(X), #count{Y: inSquadra(Y,X)} = N, #int(N), N > 3.
 :- inSquadra(X,Y), not squadraDesiderata(X,Y).
-:~ squadra(X), #count{Y: giocatore(Z,Y), inSquadra(Z,X)} = N, #int(N). [N:2]
-:~ #sum{Z: offerta(Y,X,Z), nonInSquadra(X,Y)} = N, #int(N). [N:1]
+:~ squadra(X), #count{Y: giocatore(Z,Y), inSquadra(Z,X)} = N, #int(N). [N:1]
+:~ #sum{Z: offerta(Y,X,Z), nonInSquadra(X,Y)} = N, #int(N). [N:2]

@@ -1,0 +1,56 @@
+#maxint=200.
+
+candidato(f,politico,uomo,2,15).
+candidato(g,politico,uomo,3,16).
+candidato(h,politico,uomo,4,17).
+candidato(i,politico,uomo,1,18).
+candidato(l,politico,uomo,2,19).
+candidato(m,politico,donna,4,20).
+candidato(n,politico,donna,5,21).
+candidato(o,politico,donna,7,1).
+candidato(p,politico,donna,1,1).
+candidato(q,politico,donna,2,2).
+
+candidato(fa,esperto,uomo,2,15).
+candidato(ga,esperto,uomo,3,16).
+candidato(ha,esperto,uomo,4,17).
+candidato(ia,esperto,uomo,1,18).
+candidato(la,esperto,uomo,2,19).
+candidato(ma,esperto,donna,4,20).
+candidato(na,esperto,donna,5,21).
+candidato(oa,esperto,donna,7,100).
+candidato(pa,esperto,donna,1,1).
+candidato(qa,esperto,donna,2,2).
+
+
+membro(f,3).
+membro(g,4).
+membro(h,4).
+membro(i,5).
+membro(l,5).
+membro(m,6).
+membro(n,6).
+membro(o,7).
+membro(p,7).
+membro(q,8).
+
+gruppoIn(X) | gruppoOut(X) :- candidato(X,_,_,_,_).
+
+:- #count{X: gruppoIn(X)} = N, #int(N), N != 10.
+
+numeroDonne(N) :- #count{X: candidato(X,_,donna,_,_), gruppoIn(X)} = N, #int(N).
+numeroUomini(N) :- #count{X: candidato(X,_,uomo,_,_), gruppoIn(X)} = N, #int(N).
+:- numeroDonne(X), not numeroUomini(X).
+
+numeroEsperti(N) :- #count{X: candidato(X,esperto,_,_,_), gruppoIn(X)} = N, #int(N).
+numeroPolitici(N) :- #count{X: candidato(X,politico,_,_,_), gruppoIn(X)} = N, #int(N).
+:- #int(D), numeroEsperti(X), numeroPolitici(Y), X >= Y, D = X-Y, D > 2.
+:- #int(D), numeroEsperti(X), numeroPolitici(Y), Y >= X, D = Y-X, D > 2.
+
+formazionePolitica(X) :- membro(_,X).
+:- formazionePolitica(Y), #count{X: membro(X,Y), gruppoIn(X)} < 1.
+:- formazionePolitica(Y), #count{X: membro(X,Y), gruppoIn(X)} > 2.
+
+:~ candidato(X,esperto,_,C,_), gruppoIn(X). [C:2]
+
+:~ candidato(X,_,_,_,G), gruppoOut(X). [G:1]
