@@ -31,8 +31,8 @@ giornoInPiu(X,Z) :- numeroGiorni(X,Y), numeroGiorni(Z,W), X != Z, Y = W+1.
 cognome(wanda,bruni).
 parente(wanda,oro).
 :- passione(wanda,nuoto).
-:- cognome(X,rossi), passione(X,scherma).
-%:- passione(X,ginnastica), not numeroGiorni(X,4).
+:- cognome(X,rossi), not passione(X,scherma).
+:- passione(X,ginnastica), not numeroGiorni(X,4).
 :- numeroGiorni(arrigo,4).
 :- numeroGiorni(paolo,4).
 
