@@ -1,0 +1,36 @@
+riga(1..#maxint).
+
+coordinata(2,1,x).
+coordinata(2,6,x).
+coordinata(3,4,x).
+coordinata(4,1,o).
+coordinata(4,4,x).
+coordinata(5,2,o).
+coordinata(6,2,o).
+
+
+coordinate(X,Y) :- riga(X), riga(Y).
+
+coordinata(X,Y,x) | coordinata(X,Y,o) :- coordinate(X,Y).
+
+adiacentePerRiga(X,Y,X,V,S) :- coordinata(X,Y,S), coordinata(X,V,S), V = Y+1.
+adiacentePerRiga(X,Y,X,V,S) :- coordinata(X,Y,S), coordinata(X,V,S), V = Y-1.
+adiacentePerColonna(X,Y,V,Y,S) :- coordinata(X,Y,S), coordinata(V,Y,S), V = X+1.
+adiacentePerColonna(X,Y,V,Y,S) :- coordinata(X,Y,S), coordinata(V,Y,S), V = X-1.
+
+adiacentePerRiga(X,Y,X,B,S) :- adiacentePerRiga(X,Y,X,V,S) , coordinata(X,B,S), B = V+1.
+adiacentePerRiga(X,Y,X,B,S) :- adiacentePerRiga(X,Y,X,V,S) , coordinata(X,B,S), B = V-1.
+adiacentePerColonna(X,Y,B,Y,S) :- adiacentePerColonna(X,Y,V,Y,S), coordinata(B,Y,S), B = V+1.
+adiacentePerColonna(X,Y,B,Y,S) :- adiacentePerColonna(X,Y,V,Y,S), coordinata(B,Y,S), B = V-1.
+
+:- coordinata(X,Y,S), #count{V,Z: adiacentePerRiga(X,Y,V,Z,S)} > 2.
+:- coordinata(X,Y,S), #count{V,Z: adiacentePerColonna(X,Y,V,Z,S)} > 2.
+
+numeroX(N) :- #count{X,Y: coordinata(X,Y,x)} = N, #int(N).
+numeroO(N) :- #count{X,Y: coordinata(X,Y,o)} = N, #int(N).
+:- numeroX(X), numeroO(Y), X != Y.
+
+numeroSimboliDifferentiRiga(N,X,Y) :- riga(X), riga(Y), X != Y, #count{Z: coordinata(X,Z,S), coordinata(Y,Z,Q), S != Q, #int(Z), Z > 0 } = N, #int(N).
+numeroSimboliDifferentiColonna(N,X,Y) :- riga(X), riga(Y), X != Y, #count{Z: coordinata(Z,X,S), coordinata(Z,Y,Q), S != Q, #int(Z), Z > 0 } = N, #int(N).
+:- coordinata(X,_,_), coordinata(Y,_,_), X != Y, numSimboliDifferentiRiga(N,X,Y), N = 0.
+:- coordinata(_,X,_), coordinata(_,Y,_), X != Y, numSimboliDifferentiColonna(N,X,Y), N = 0.

@@ -1,5 +1,13 @@
 riga(1..#maxint).
 
+numeroIn(2,6,1).
+numeroIn(3,3,2).
+numeroIn(3,5,1).
+numeroIn(4,2,1).
+numeroIn(4,4,2).
+numeroIn(5,1,1).
+
+
 numero(X) :- #int(N), #int(X), #int(D), X = N+1, D = #maxint/2, X <= D.
 
 coordinata(X,Y) :- riga(X), riga(Y).
@@ -20,6 +28,9 @@ coordinateUtilizzate(X,Y) :- numeroIn(X,Y,_).
 
 settoreOrizzontale(X,Y,Z)|settoreOrizzontaleOut(X,Y,Z) :- coordinata(X,Y), riga(Z).
 settoreVerticale(X,Y,Z)|settoreVerticaleOut(X,Y,Z) :- coordinata(X,Y), riga(Z).
+
+:- settoreOrizzontale(X,Y,Z), settoreOrizzontale(X,W,Z), numeroIn(X,Y,N), numeroIn(X,W,N), W != Y.
+:- settoreVerticale(X,Y,Z), settoreVerticale(W,Y,Z), numeroIn(X,Y,N), numeroIn(W,Y,N), W != X.
 
 :- settoreOrizzontale(X,Y,Z), settoreOrizzontale(X,Y,V), Z != V.
 :- settoreOrizzontale(X,Y,Z), settoreOrizzontale(V,W,Z), X != V, Y != W.
@@ -47,8 +58,8 @@ adiacenteVerticale(X,Y,A,Y,Z) :- adiacenteVerticale(X,Y,F,Y,Z), settoreVerticale
 numeroSO(X) :- settoreOrizzontale(_,_,X).
 numeroSV(X) :- settoreVerticale(_,_,X).
 
-:- #int(N), #int(D), numeroSO(Z), #count{X,Y: settoreOrizzontale(X,Y,Z)} = N, M = #maxint/2, N != M.
-:- #int(N), #int(D), numeroSV(Z), #count{X,Y: settoreVerticale(X,Y,Z)} = N, M = #maxint/2, N != M.
+:- #int(N), numeroSO(Z), #count{X,Y: settoreOrizzontale(X,Y,Z)} = N, M = #maxint/2, N != M.
+:- #int(N), numeroSV(Z), #count{X,Y: settoreVerticale(X,Y,Z)} = N, M = #maxint/2, N != M.
 
 :- settoreOrizzontale(X,Y,Z), settoreOrizzontale(W,T,Z), numeroIn(X,Y,C), numeroIn(W,T,C), X != W, Y != T.
 :- settoreVerticale(X,Y,Z), settoreVerticale(W,T,Z), numeroIn(X,Y,C), numeroIn(W,T,C), X != W, Y != T.

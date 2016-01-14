@@ -19,5 +19,5 @@ societa(3,terziario,15).
 pacchettoIn(X) | pacchettoOut(X) :- pacchetto(X,_,_,Y).
 :- #count{X: pacchettoIn(X)} > 10.
 :- #int(S), #int(N), #int(M), pacchettoIn(X), pacchetto(X,_,Z,Y), S = Y, N = Z, M = S/N, M > 20.
-:~ #count{Y: pacchettoOut(X), pacchettoId(X,Z,_,_), societa(Z,Y,_)} = N, #int(N). [N:]
-:~ pacchettoIn(X), pacchettoId(X,Z,_,_), societa(Z,_,N). [N:]
+:~ #count{Y: pacchettoOut(X), pacchetto(X,Z,_,_), societa(Z,Y,_)} = N, #int(N). [N:2]
+:~ pacchettoIn(X), pacchetto(X,Z,_,_), societa(Z,_,N). [N:]
