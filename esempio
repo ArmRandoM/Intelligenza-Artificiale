@@ -1,12 +1,9 @@
-#maxint = 500.
+#maxint = 30.
 
-c(Y):- b(Y), not a(Y,Y).
-c(Y) :- a(Y,X), b(X), Y=X-1.
-a(X,X) :- b(X), Y=X+1, not b(Y),not c(X).
-a(X,Y):- c(X), c(Y), not b(X).
-a(1,2).
-b(2).
-b(3).
-:~ a(_,X). [ X: 1 ]
-:~ a(X,Y),c(X). [X:Y]
-:-not #sum{X,Y:a(X,Y)}=5.
+t(X) v u(X) :- s(_,X).
+s(X,Y):- t(X), t(Y), not u(X).
+t(Y) :- s(Y,X), u(X), X=1+Y.
+s(1,2).
+t(1).
+:~ s(X,Y). [ Y : X ]
+:- #sum { X : s(X,1) } = 3.

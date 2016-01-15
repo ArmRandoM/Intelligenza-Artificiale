@@ -1,0 +1,99 @@
+#maxint=20000.
+
+ristorante(a).
+ristorante(b).
+ristorante(c).
+ristorante(d).
+ristorante(e).
+ristorante(f).
+ristorante(g).
+ristorante(h).
+ristorante(i).
+ristorante(l).
+ristorante(m).
+ristorante(n).
+ristorante(o).
+ristorante(p).
+ristorante(q).
+ristorante(r).
+ristorante(s).
+ristorante(t).
+
+
+distanza(a,b,10).
+distanza(a,d,20).
+distanza(a,e,30).
+distanza(a,f,40).
+distanza(a,g,50).
+distanza(a,i,60).
+distanza(a,l,70).
+distanza(a,m,80).
+distanza(a,n,90).
+distanza(a,p,100).
+distanza(a,r,110).
+distanza(c,b,10).
+distanza(c,d,20).
+distanza(c,e,30).
+distanza(c,f,40).
+distanza(c,g,500).
+distanza(c,i,600).
+distanza(c,l,70).
+distanza(c,m,80).
+distanza(c,n,90).
+distanza(c,p,10).
+distanza(c,r,1).
+distanza(h,b,10).
+distanza(h,d,20).
+distanza(h,e,30).
+distanza(h,f,40).
+distanza(h,g,50).
+distanza(h,i,600).
+distanza(h,l,700).
+distanza(h,m,80).
+distanza(h,n,90).
+distanza(h,p,100).
+distanza(h,r,100).
+distanza(s,b,10).
+distanza(s,d,20).
+distanza(s,e,30).
+distanza(s,f,40).
+distanza(s,g,50).
+distanza(s,i,60).
+distanza(s,l,70).
+distanza(s,m,80).
+distanza(s,n,90).
+distanza(s,p,100).
+distanza(s,r,110).
+distanza(t,b,10).
+distanza(t,d,20).
+distanza(t,e,30).
+distanza(t,f,40).
+distanza(t,g,50).
+distanza(t,i,60).
+distanza(t,l,700).
+distanza(t,m,80).
+distanza(t,n,90).
+distanza(t,p,10).
+distanza(t,r,10).
+
+deposito(1,a).
+deposito(2,c).
+deposito(3,h).
+deposito(4,s).
+deposito(5,t).
+
+rifornito(X,Y) | rifornitoOut(X,Y) :- ristorante(X), deposito(Y,_).
+
+ristorantiRiforniti(X) :- rifornito(X,_).
+:- ristorante(X), not ristorantiRiforniti(X).
+:- rifornito(X,Y), rifornito(X,Z), Y != Z.
+
+:- deposito(Y,X), not rifornito(X,Y).
+
+:- deposito(X,_), #count{Y: rifornito(Y,X)} > 5.
+
+:- deposito(X,Y), rifornito(Z,X), Y != Z, distanza(Y,Z,N), N > 100.
+
+:~ #count{X: rifornito(_,X)} = N, #int(N). [N:2]
+
+:~ deposito(X,Y), rifornito(Z,X), Y != Z, distanza(Y,Z,N). [N:1]
