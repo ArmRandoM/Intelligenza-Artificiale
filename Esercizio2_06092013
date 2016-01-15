@@ -1,0 +1,89 @@
+#maxint = 1000.
+
+mese(1..12).
+
+evento(1, 1, 1, 10, 100).
+evento(2, 2, 1, 20, 100).
+evento(3, 2, 1, 20, 100).
+evento(4, 3, 1, 30, 50).
+evento(5, 4, 1, 10, 30).
+
+evento(6, 1, 2, 30, 70).
+evento(7, 3, 2, 20, 80).
+evento(8, 3, 2, 40, 100).
+evento(9, 3, 2, 30, 50).
+evento(10, 5, 2, 10, 30).
+
+evento(11, 1, 3, 10, 80).
+evento(12, 2, 3, 20, 90).
+evento(13, 2, 3, 20, 80).
+evento(14, 3, 3, 30, 50).
+evento(15, 5, 3, 10, 30).
+
+evento(16, 2, 4, 10, 100).
+evento(17, 3, 4, 40, 100).
+evento(18, 4, 4, 20, 90).
+evento(19, 4, 4, 30, 50).
+evento(20, 5, 4, 10, 30).
+
+evento(21, 1, 5, 30, 80).
+evento(22, 1, 5, 20, 90).
+evento(23, 1, 5, 40, 100).
+evento(24, 2, 5, 30, 50).
+evento(25, 5, 5, 40, 30).
+
+evento(26, 2, 6, 10, 100).
+evento(27, 2, 6, 20, 40).
+evento(28, 3, 6, 20, 80).
+evento(29, 4, 6, 30, 50).
+evento(30, 5, 6, 10, 30).
+
+evento(31, 1, 7, 30, 80).
+evento(32, 2, 7, 20, 30).
+evento(33, 3, 7, 20, 100).
+evento(34, 4, 7, 30, 50).
+evento(35, 5, 7, 10, 30).
+
+evento(36, 1, 8, 10, 10).
+evento(37, 2, 8, 20, 10).
+evento(38, 2, 8, 70, 10).
+evento(39, 3, 8, 30, 50).
+evento(40, 4, 8, 10, 30).
+
+evento(41, 1, 9, 70, 40).
+evento(42, 2, 9, 70, 50).
+evento(43, 3, 9, 20, 10).
+evento(44, 3, 9, 30, 50).
+evento(45, 4, 9, 10, 30).
+
+evento(46, 1, 10, 10, 70).
+evento(47, 1, 10, 30, 100).
+evento(48, 2, 10, 20, 80).
+evento(49, 2, 10, 30, 50).
+evento(50, 3, 10, 10, 30).
+
+evento(51, 2, 11, 10, 100).
+evento(52, 3, 11, 20, 60).
+evento(53, 1, 11, 30, 10).
+evento(54, 1, 11, 30, 10).
+evento(55, 4, 11, 10, 30).
+
+evento(56, 1, 12, 10, 70).
+evento(57, 3, 12, 50, 100).
+evento(58, 4, 12, 20, 80).
+evento(59, 5, 12, 30, 50).
+evento(60, 9, 12, 10, 30).
+
+eventoIn(X) | eventoOut(X) :- evento(X,_,_,_,_).
+
+giorno(X,Y) :- evento(_,X,Y,_,_).
+:- giorno(X,Y), #count{Z: evento(Z,X,Y,_,_), eventoIn(Z)} > 2.
+
+:- mese(N), #count{Z: evento(Z,_,N,_,_), eventoIn(Z)} < 3.
+:- mese(N), #count{Z: evento(Z,_,N,_,_), eventoIn(Z)} > 6.
+
+:- #count{Z: evento(Z,_,8,_,_), eventoIn(Z)} < 4.
+
+:~ evento(Z,_,_,N,_), eventoIn(Z). [N:1]
+
+:~ evento(Z,_,_,_,N), eventoOut(Z). [N:2]

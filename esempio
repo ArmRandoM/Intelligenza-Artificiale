@@ -1,9 +1,9 @@
-#maxint = 30.
+#maxint = 100.
 
-t(X) v u(X) :- s(_,X).
-s(X,Y):- t(X), t(Y), not u(X).
-t(Y) :- s(Y,X), u(X), X=1+Y.
-s(1,2).
-t(1).
-:~ s(X,Y). [ Y : X ]
-:- #sum { X : s(X,1) } = 3.
+tira(W) v molla(W) :- amanti(_,W).
+amanti(U,Z) :- tira(U), not molla(U), tira(Z).
+tira(W) :- molla(X), amanti(W,X), W = X - 1.
+tira(4).
+amanti(4,5).
+:~ amanti(X,Y). [ Y : X ]
+:- #sum { X : amanti(X,_) } > 8.
