@@ -1,9 +1,0 @@
-#maxint = 100.
-
-tira(W) v molla(W) :- amanti(_,W).
-amanti(U,Z) :- tira(U), not molla(U), tira(Z).
-tira(W) :- molla(X), amanti(W,X), W = X - 1.
-tira(4).
-amanti(4,5).
-:~ amanti(X,Y). [ Y : X ]
-:- #sum { X : amanti(X,_) } > 8.
