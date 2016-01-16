@@ -1,0 +1,36 @@
+riga(1..#maxint).
+
+%numero(1..#maxint).
+
+percorso(4,2,1).
+percorso(5,2,2).
+percorso(1,2,4).
+percorso(2,2,5).
+percorso(3,3,1).
+percorso(3,3,5).
+percorso(5,5,3).
+percorso(4,5,4).
+percorso(2,6,1).
+percorso(1,7,7).
+
+numero(X) :- percorso(X,_,_).
+
+coordinata(X,Y) :- riga(X), riga(Y).
+
+percorso(N,X,Y) | percorsoOut(N,X,Y) :- numero(N), coordinata(X,Y).
+
+:- percorso(N,X,Y), percorso(V,X,Y), N != V.
+coordinateUtilizzate(X,Y) :- percorso(_,X,Y).
+:- coordinata(X,Y), not coordinateUtilizzate(X,Y).
+
+adiacente(X,Y,X,V,N) :- percorso(N,X,Y), percorso(N,X,V), V = Y+1.
+adiacente(X,Y,X,V,N) :- percorso(N,X,Y), percorso(N,X,V), V = Y-1.
+adiacente(X,Y,V,Y,N) :- percorso(N,X,Y), percorso(N,V,Y), V = X+1.
+adiacente(X,Y,V,Y,N) :- percorso(N,X,Y), percorso(N,V,Y), V = X-1.
+
+adiacente(X,Y,A,B,N) :- adiacente(X,Y,A,V,N), percorso(N,A,B), B = V+1.
+adiacente(X,Y,A,B,N) :- adiacente(X,Y,A,V,N), percorso(N,A,B), B = V-1.
+adiacente(X,Y,B,A,N) :- adiacente(X,Y,V,A,N), percorso(N,B,A), B = V+1.
+adiacente(X,Y,B,A,N) :- adiacente(X,Y,V,A,N), percorso(N,B,A), B = V-1.
+
+:- percorso(N,X,Y), percorso(N,V,W), not adiacente(X,Y,V,W,N).
