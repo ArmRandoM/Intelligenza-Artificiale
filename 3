@@ -1,0 +1,42 @@
+#maxint=1000.
+riga(1..3).
+
+numero(32).
+numero(6).
+numero(4).
+numero(26).
+numero(10).
+numero(20).
+numero(22).
+numero(16).
+numero(18).
+numero(12).
+numero(14).
+numero(24).
+numero(8).
+numero(30).
+numero(28).
+numero(2).
+
+
+coordinata(X,Y):- riga(X), riga(Y).
+
+cella(X,Y,N)|cellaout(X,Y,N):- numero(N), coordinata(X,Y).
+:- numero(N), #count{X,Y: cella(X,Y,N)} >= 2.
+:- cella(X,Y,N), cella(W,Z,N), W != X, Z != Y.
+:- cella(X,Y,N), cella(X,Y,S), N != S.
+
+cellaU(X,Y):- cella(X,Y,_).
+:- coordinata(X,Y), not cellaU(X,Y).
+
+sommaR(X,R):- riga(R), #sum{N:cella(R,_,N)} = X, #int(X).
+sommaC(X,R):- riga(R), #sum{N:cella(_,R,N)} = X, #int(X).
+sommaD1(X):- #sum{N:cella(R,R,N)} = X, #int(X).
+sommaD2(X):- #sum{N:cella(R,C,N), S=R+C, S=4, #int(S)} = X, #int(X).
+
+
+:- sommaR(X,R), sommaR(Y,C), X != Y, R != C.
+:- sommaC(X,R), sommaC(Y,C), X != Y, R != C.
+:- sommaR(X,_), sommaC(Y,_), X != Y.
+:- sommaD2(X), sommaD1(Y), X != Y.
+:- sommaR(X,_), sommaD1(Y), X != Y.

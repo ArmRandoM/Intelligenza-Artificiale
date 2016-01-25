@@ -12,14 +12,18 @@ casellaIn(N,X,Y)|casellaOut(N,X,Y) :- numero(N), casella(X,Y).
 :- casellaIn(N,X,Y), casellaIn(N,V,Y), X != V.
 :- casellaIn(A,X,Y), casellaIn(B,X,Y), A != B.
 
-:- #count{N: casellaIn(N,_,_)} = X, #int(X), X != 15.
+%:- not #count{N: casellaIn(N,_,_)} = 15.
 
 numeriContenutiRiga(N) :- fila(X), #count{Z: casellaIn(Z,X,_)} = N, #int(N).
 numeriContenutiColonna(N) :- colonna(Y), #count{Z: casellaIn(Z,_,Y)} = N, #int(N).
 
-:- numeriContenutiRiga(N), N < 1.
-:- numeriContenutiRiga(N), N > 2.
-:- numeriContenutiColonna(N), N != 5.
+%:- numeriContenutiColonna(N), N < 1.
+%:- numeriContenutiColonna(N), N > 2.
+%:- numeriContenutiRiga(N), N != 5.
+
+:- fila(X), not #count{Z: casellaIn(Z,X,_)} = 5.
+:- colonna(Y), #count{Z: casellaIn(Z,_,Y)} < 1.
+:- colonna(Y), #count{Z: casellaIn(Z,_,Y)} > 2.
 
 :-casellaIn(N,_,1), N > 9.
 :-casellaIn(N,_,2), N < 10.

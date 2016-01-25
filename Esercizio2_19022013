@@ -64,7 +64,7 @@ numeroSlotFascia(F,N) :- fascia(F), serata(S), #sum{X,Y: esibizione(S,F,Y), arti
 minoreDiTre(F,S) :- fascia(F), serata(S), #count{X: artista(X,cantante,_,_), esibizione(S,F,X)} = N, #int(N), N < 3.
 :- esibizione(S,F,_), minoreDiTre(F,S).
 
-:~ #count{Z: artista(Z,ospite,_,_), esibizione(_,3,Z)} = N, #int(N). [N:2]
+:~ #count{Z: artista(Z,ospite,_,_), esibizione(_,3,Z)} = N, #int(N). [N:1]
 
 importanzaSerata(X,N) :- serata(X), #sum{V,Y: artista(Y,_,_,V), esibizione(X,_,Y)} = N, #int(N).
-:~ esibizione(X,_,_), esibizione(Y,_,_), X != Y, importanzaSerata(X,V), importanzaSerata(Y,Z), Z >= V, D = Z-V, #int(D). [D:1]
+:~ esibizione(X,_,_), esibizione(Y,_,_), X != Y, importanzaSerata(X,V), importanzaSerata(Y,Z), Z >= V, D = Z-V, #int(D). [D:2]
