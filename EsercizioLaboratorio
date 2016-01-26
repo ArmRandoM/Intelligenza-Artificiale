@@ -1,0 +1,45 @@
+#maxint=1000.
+
+budget(100).
+serata(1..3).
+
+attrazione(processione,religione,2,5).
+attrazione(veglia,religione,1,2).
+attrazione(musicaSacra,religione,3,6).
+attrazione(spiritual,religione,2,15).
+attrazione(gesu,religione,2,5).
+attrazione(preghiera,religione,1,2).
+attrazione(rosario,religione,3,6).
+attrazione(paradiso,religione,2,15).
+attrazione(riffa,gioco,1,10).
+attrazione(bingo,gioco,3,5).
+attrazione(risico,gioco,3,5).
+attrazione(alberoCuccagna,gioco,1,3).
+attrazione(corsaCavalli,gioco,3,30).
+attrazione(concerto1,spettacolo,2,5).
+attrazione(concerto2,spettacolo,1,10).
+attrazione(concerto3,spettacolo,3,25).
+attrazione(cabaret1,spettacolo,2,20).
+
+serataFestaIn(X,Y) | serataFestaOut(X,Y) :- serata(X), attrazione(Y,_,_,_).
+
+categoria(X) :- attrazione(_,X,_,_).
+:- categoria(X), serata(Z), #count{Y: attrazione(Y,X,_,_), serataFestaIn(Z,Y)} < 1.
+
+:- serataFestaIn(X,Y), serataFestaIn(Z,Y), X!=Z.
+
+:- serata(X), #sum{D,Y: attrazione(Y,_,D,_), serataFestaIn(X,Y)} < 5.
+:- serata(X), #sum{D,Y: attrazione(Y,_,D,_), serataFestaIn(X,Y)} > 7.
+
+budgetSpeso(B) :- #sum{C: attrazione(X,_,_,C), serataFestaIn(_,X)} = B, #int(B).
+:- budget(X), budgetSpeso(Y), Y > X.
+
+%attrazioniGioco(X) :- #count{Y: attrazione(Y,gioco,_,_), serataFestaOut(_,Y)} = X, #int(X).
+%:~ attrazioniGioco(X). [X:1]
+:~ attrazione(X,gioco,_,_), serataFestaOut(_,X). [1:1]
+
+attrazioniReligiosePerSerata(Y,N) :- serata(Y), #count{X: attrazione(X,religione,_,_), serataFestaIn(Y,X)} = N, #int(N).
+attrazioniGiocoPerSerata(Y,N) :- serata(Y), #count{X: attrazione(X,gioco,_,_), serataFestaIn(Y,X)} = N, #int(N).
+attrazioniSpettacoloPerSerata(Y,N) :- serata(Y), #count{X: attrazione(X,spettacolo,_,_), serataFestaIn(Y,X)} = N, #int(N).
+
+:~ attrazioniReligiosePerSerata(Y,N), attrazioniSpettacoloPerSerata(Y,Z), attrazioniGiocoPerSerata(Y,X), X >= N, Z >= N. [1:2]
