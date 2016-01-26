@@ -44,8 +44,8 @@ numeroUomini(N) :- #count{X: candidato(X,_,uomo,_,_), gruppoIn(X)} = N, #int(N).
 
 numeroEsperti(N) :- #count{X: candidato(X,esperto,_,_,_), gruppoIn(X)} = N, #int(N).
 numeroPolitici(N) :- #count{X: candidato(X,politico,_,_,_), gruppoIn(X)} = N, #int(N).
-:- #int(D), numeroEsperti(X), numeroPolitici(Y), X >= Y, D = X-Y, D > 2.
-:- #int(D), numeroEsperti(X), numeroPolitici(Y), Y >= X, D = Y-X, D > 2.
+:- #int(D), numeroEsperti(X), numeroPolitici(Y), X > Y, D = X-Y, D > 2.
+:- #int(D), numeroEsperti(X), numeroPolitici(Y), Y > X, D = Y-X, D > 2.
 
 formazionePolitica(X) :- membro(_,X).
 :- formazionePolitica(Y), #count{X: membro(X,Y), gruppoIn(X)} < 1.
