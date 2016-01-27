@@ -1,0 +1,43 @@
+#maxint=100.
+
+valoreRiga(1,12).
+valoreRiga(2,14).
+valoreRiga(3,30).
+valoreRiga(4,17).
+
+valoreColonna(1,17).
+valoreColonna(2,15).
+valoreColonna(3,23).
+valoreColonna(4,18).
+
+valoreDiagonale(15).
+
+riga(1..4).
+numero(1..9).
+
+coordinata(X,Y) :- riga(X), riga(Y).
+
+numeroIn(N,X,Y) | numeroOut(N,X,Y) :- numero(N),coordinata(X,Y).
+
+:- numeroIn(N,X,A), numeroIn(N,X,B), A != B.
+:- numeroIn(N,A,Y), numeroIn(N,B,Y), A != B.
+:- numeroIn(A,X,Y), numeroIn(B,X,Y), A != B.
+
+coordinate(X,Y) :- numeroIn(_,X,Y).
+:- coordinata(X,Y), not coordinate(X,Y).
+
+sommaRiga(X,N) :- riga(X), #sum{A: numeroIn(A,X,_)} = N, #int(N).
+sommaColonna(X,N) :- riga(X), #sum{A: numeroIn(A,_,X)} = N, #int(N).
+sommaDiagonale(N) :- #sum{A: numeroIn(A,X,X)} = N, #int(N).
+:- valoreRiga(X,Y), not sommaRiga(X,Y).
+:- valoreColonna(X,Y), not sommaColonna(X,Y).
+:- valoreDiagonale(X), not sommaDiagonale(X).
+
+numeroInRiga(N,X) :- numeroIn(N,X,_).
+:- not numeroInRiga(5,1).
+
+:- numeroIn(N,3,Y), numeroIn(V,3,Z), Z > Y, V < N.
+
+:- numeroIn(N,Y,3), numeroIn(V,Z,3), Z > Y, V < N.
+
+:- numeroIn(3,X,Y), numeroIn(3,Z,W), Z != X, W != Y.
