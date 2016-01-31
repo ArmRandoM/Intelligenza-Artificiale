@@ -1,0 +1,79 @@
+#maxint = 1000.
+
+settore(1,1,1,grigio).
+settore(1,2,1,grigio).
+settore(1,2,2,grigio).
+settore(1,3,2,grigio).
+settore(1,3,3,grigio).
+settore(1,4,3,grigio).
+settore(1,4,4,grigio).
+settore(1,5,4,grigio).
+settore(1,5,5,grigio).
+settore(1,6,5,grigio).
+settore(1,6,6,grigio).
+
+settore(2,1,2,grigio).
+settore(2,1,3,grigio).
+settore(2,2,3,grigio).
+
+settore(3,3,1,grigio).
+settore(3,4,1,grigio).
+settore(3,5,1,grigio).
+
+settore(4,4,2,grigio).
+settore(4,5,2,grigio).
+settore(4,5,3,grigio).
+
+settore(5,6,3,grigio).
+settore(5,6,4,grigio).
+
+settore(1,1,4,bianco).
+settore(1,1,5,bianco).
+settore(1,2,4,bianco).
+settore(1,3,4,bianco).
+
+settore(2,1,6,bianco).
+settore(2,2,5,bianco).
+settore(2,2,6,bianco).
+
+settore(3,3,5,bianco).
+settore(3,3,6,bianco).
+
+settore(4,4,5,bianco).
+settore(4,4,6,bianco).
+settore(4,5,6,bianco).
+
+settore(5,6,1,bianco).
+settore(5,6,2,bianco).
+
+xRiga(1,2).
+xRiga(2,2).
+xRiga(3,4).
+xRiga(4,5).
+xRiga(5,1).
+xRiga(6,2).
+
+xColonna(1,4).
+xColonna(2,2).
+xColonna(3,3).
+xColonna(4,1).
+xColonna(5,4).
+xColonna(6,2).
+
+riga(1..6).
+
+coordinate(X,Y) :- riga(X), riga(Y).
+
+xIn(X,Y) | xOut(X,Y) :- coordinate(X,Y).
+
+:- settore(N,_,_,bianco), #count{X,Y: xIn(X,Y), settore(N,X,Y,bianco)} = Z, #int(Z), Z > 0, not #mod(Z,2,0).
+:- settore(N,_,_,grigio), #count{X,Y: xIn(X,Y), settore(N,X,Y,grigio)} = Z, #int(Z), Z > 0, #mod(Z,2,0).
+
+vuotoGrigio(N) :- settore(N,_,_,grigio), #count{X,Y: settore(N,X,Y,grigio), xIn(X,Y)} = 0.
+vuotoBianco(N) :- settore(N,_,_,bianco), #count{X,Y: settore(N,X,Y,bianco), xIn(X,Y)} = 0.
+
+:- #count{N: vuotoGrigio(N)} > 1.
+:- #count{N: vuotoBianco(N)} > 1.
+
+:- xRiga(X,N), not #count{Y: xIn(X,Y)} = N.
+:- xColonna(Y,N), not #count{X: xIn(X,Y)} = N.

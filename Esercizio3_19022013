@@ -1,4 +1,4 @@
-#maxint=200.
+#maxint=91.
 
 numero(1..90).
 fila(1..3).
@@ -14,19 +14,19 @@ casellaIn(N,X,Y)|casellaOut(N,X,Y) :- numero(N), casella(X,Y).
 
 %:- not #count{N: casellaIn(N,_,_)} = 15.
 
-%numeriContenutiRiga(N) :- fila(X), #count{Z: casellaIn(Z,X,_)} = N, #int(N).
+numeriContenutiRiga(N) :- fila(X), #count{Z: casellaIn(Z,X,_)} = N, #int(N).
 numeriContenutiColonna(N) :- colonna(Y), #count{Z: casellaIn(Z,_,Y)} = N, #int(N).
 
 :- numeriContenutiColonna(N), N < 1.
 :- numeriContenutiColonna(N), N > 2.
-%:- numeriContenutiRiga(N), N != 5.
+:- numeriContenutiRiga(N), N != 5.
 
-numeriContenutiRiga(X,N) :- fila(X), #count{Z: casellaIn(Z,X,_)} = N, #int(N).
+%numeriContenutiRiga(X,N) :- fila(X), #count{Z: casellaIn(Z,X,_)} = N, #int(N).
 %numeriContenutiColonna(Y,N) :- colonna(Y), #count{Z: casellaIn(Z,_,Y)} = N, #int(N).
 
 %:- colonna(Y), numeriContenutiColonna(Y,N), N < 1.
 %:- colonna(Y), numeriContenutiColonna(Y,N), N > 2.
-:- fila(X), not numeriContenutiRiga(X,5).
+%:- fila(X), not numeriContenutiRiga(X,5).
 
 
 %:- fila(X), not #count{Z: casellaIn(Z,X,_)} = 5.
