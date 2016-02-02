@@ -1,0 +1,5 @@
+nessuno(1,4).   nessuno(2,3).
+tutti(1,5).     tutti(2,2).
+alcuni(X) :-not nessuno(X,Y), tanti(Y), pochi(X).
+tanti(Y) | alcuni(X) | pochi(X) :-tutti(X,Y), not alcuni(Y).
+%:-#max{X:tanti(X)}>1, #min{Y:alcuni(Y)}<2.

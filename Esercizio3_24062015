@@ -1,0 +1,91 @@
+#maxint = 10.
+
+riga(1..10).
+
+cella(1,1,o).
+cella(1,4,o).
+cella(1,5,o).
+cella(1,7,x).
+cella(1,9,x).
+cella(1,10,x).
+cella(2,2,x).
+cella(2,4,x).
+cella(2,6,o).
+cella(2,8,x).
+cella(2,9,o).
+cella(2,10,x).
+cella(3,6,o).
+cella(3,7,o).
+cella(3,10,x).
+cella(4,1,x).
+cella(4,2,x).
+cella(4,4,x).
+cella(4,5,o).
+cella(4,6,x).
+cella(4,7,x).
+cella(4,8,x).
+cella(4,9,o).
+cella(4,10,o).
+cella(5,1,o).
+cella(5,3,o).
+cella(5,5,x).
+cella(5,8,x).
+cella(5,9,o).
+cella(5,10,o).
+cella(6,1,0).
+cella(6,2,o).
+cella(6,3,x).
+cella(6,4,x).
+cella(6,6,o).
+cella(6,8,x).
+cella(7,4,o).
+cella(7,5,x).
+cella(7,6,x).
+cella(7,9,o).
+cella(8,2,o).
+cella(8,3,x).
+cella(8,5,x).
+cella(8,6,o).
+cella(9,1,x).
+cella(9,3,x).
+cella(9,5,o).
+cella(9,6,o).
+cella(9,8,x).
+cella(9,9,o).
+cella(9,10,x).
+cella(10,1,o).
+cella(10,4,x).
+cella(10,5,o).
+cella(10,6,o).
+cella(10,7,x).
+cella(10,8,x).
+cella(10,10,o).
+
+coordinata(X,Y) :- riga(X), riga(Y).
+
+cella(X,Y,x) | cella(X,Y,o) :- coordinata(X,Y).
+
+adiacenteRiga(X,Y,X,Z,S) :- cella(X,Y,S), cella(X,Z,S), Z = Y+1.
+adiacenteRiga(X,Y,X,Z,S) :- cella(X,Y,S), cella(X,Z,S), Z = Y-1.
+adiacenteRiga(X,Y,X,B,S) :- adiacenteRiga(X,Y,X,A,S), cella(X,B,S), B = A+1.
+adiacenteRiga(X,Y,X,B,S) :- adiacenteRiga(X,Y,X,A,S), cella(X,B,S), B = A-1.
+
+adiacenteColonna(X,Y,Z,Y,S) :- cella(X,Y,S), cella(Z,Y,S), Z = X+1.
+adiacenteColonna(X,Y,Z,Y,S) :- cella(X,Y,S), cella(Z,Y,S), Z = X-1.
+adiacenteColonna(X,Y,B,Y,S) :- adiacenteColonna(X,Y,A,Y,S), cella(B,Y,S), B = A+1.
+adiacenteColonna(X,Y,B,Y,S) :- adiacenteColonna(X,Y,A,Y,S), cella(B,Y,S), B = A-1.
+
+adiacenteDiagonaleP(X,Y,W,Z,S) :- cella(X,Y,S), cella(W,Z,S), W = X+1, Z = Y+1.
+adiacenteDiagonaleP(X,Y,W,Z,S) :- cella(X,Y,S), cella(W,Z,S), W = X-1, Z = Y-1.
+adiacenteDiagonaleP(X,Y,W,Z,S) :- adiacenteDiagonaleP(X,Y,A,B,S), cella(W,Z,S), W = A+1, Z = B+1.
+adiacenteDiagonaleP(X,Y,W,Z,S) :- adiacenteDiagonaleP(X,Y,A,B,S), cella(W,Z,S), W = A-1, Z = B-1.
+
+adiacenteDiagonaleS(X,Y,W,Z,S) :- cella(X,Y,S), cella(W,Z,S), W = X+1, Z = Y-1.
+adiacenteDiagonaleS(X,Y,W,Z,S) :- cella(X,Y,S), cella(W,Z,S), W = X-1, Z = Y+1.
+adiacenteDiagonaleS(X,Y,W,Z,S) :- adiacenteDiagonaleS(X,Y,A,B,S), cella(W,Z,S), W = A+1, Z = B-1.
+adiacenteDiagonaleS(X,Y,W,Z,S) :- adiacenteDiagonaleS(X,Y,A,B,S), cella(W,Z,S), W = A-1, Z = B+1.
+
+:- cella(X,Y,S), #count{Z: adiacenteRiga(X,Y,X,Z,S)} >= 4.
+:- cella(X,Y,S), #count{Z: adiacenteColonna(X,Y,Z,Y,S)} >= 4.
+:- cella(X,Y,S), #count{Z: adiacenteDiagonaleP(X,Y,Z,W,S)} >= 4.
+:- cella(X,Y,S), #count{Z: adiacenteDiagonaleS(X,Y,Z,W,S)} >= 4.
